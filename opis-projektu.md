@@ -7,3 +7,11 @@ każdego zaotrzebowania istnieją co najmniej 3 predefiniowane scieżki. Sprawdz
 jak wpływa na koszt rozwiazania agregacja zapotrzebowań, tzn. czy zapotrzebowanie realizowane jest na jednej scieżce (pełna agregacja), czy dowolnie, na
 wszystkich scieżkach w ramach zapotrzebowania (pełna dezagregacja). Dobrać
 optymalne prawdopodopbienstwo operatorów genetycznych oraz liczność populacji. Dane pobrać ze strony http://sndlib.zib.de/home.action, dla sieci polska.
+
+
+
+
+15 grudnia: przygotowanie wstępnej dokumentacji
+12 stycznia: prawie działający projekt
+19 stycznia: do tegpo czasu można poprawiać ocenę z projektu
+26 stycznia: ostateczna data oddania projektu.
