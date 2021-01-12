@@ -1,4 +1,4 @@
-import parser
+from parser import nodes, links
 from mutation import mutation
 from crossover import crossover
 from select import select
