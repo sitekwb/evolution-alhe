@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<network xmlns="http://sndlib.zib.de/network" version="1.0">
+<network version="1.0">
  <networkStructure>
   <nodes coordinatesType="geographical">
    <node id="Gdansk">

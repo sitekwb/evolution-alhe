@@ -1,0 +1,34 @@
+nodes = ['Gdansk', 'Bydgoszcz', ...]
+links = {
+    0: {
+        1: Link_0_1_data,
+        2: Link_0_2_data,
+        ...
+    },
+    1: {
+        3: Link_1_3_data,
+        5: Link_1_5_data,
+        ...
+    },
+    ...
+}
+
+Link_a_b_data = {
+    'setupCost': 156.0,
+    'capacity0': 155.0,
+    'cost0': 156.0,
+    'capacity1': 622.0,
+    'cost1': 468.0,
+    'demand': 195.00
+    'admissiblePaths': [
+        [(0,2), (1,2)],
+        [(0,10), (1,10)],
+        [(0,2), (2,9), (7,9), (1,7)],
+        ...
+    ]
+}
+
+// demands i admissible_paths są podłączone pod link_data
+
+// chromosom to lista wybranych admissible_paths
+

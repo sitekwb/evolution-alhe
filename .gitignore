@@ -1,6 +1,8 @@
-.vscode/settings.json
+.vscode
 dokumentacja/main.aux
 dokumentacja/main.fdb_latexmk
 dokumentacja/main.fls
 dokumentacja/main.log
 dokumentacja/main.synctex.gz
+src/__pycache__
+src/settings.pyc
