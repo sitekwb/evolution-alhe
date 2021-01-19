@@ -26,6 +26,7 @@ def create_polska_json():
     nodes = [n.get('id') for n in root.iter('node')]
 
     links = {}
+    demands = {}
     for link in root.iter('link'):
         first, last = extract_indexes(link.get('id'))
         data = {}
@@ -35,7 +36,6 @@ def create_polska_json():
             data['capacity{}'.format(i)] = float(module.find('capacity').text)
             data['cost{}'.format(i)] = float(module.find('cost').text)
             i += 1
-        print(first, last)
         links.setdefault(first, {})[last] = data
 
     for demand in root.iter('demand'):
@@ -46,23 +46,25 @@ def create_polska_json():
             path = [extract_indexes(link_id.text) for link_id in admissiblePath.iter('linkId')]
             admissiblePaths.append(path)
         
-        print(demand.get('id'))
-        print(first, last)
-        print(links[0])
         link_data = links.setdefault(first, {}).setdefault(last, {})
         link_data['demand'] = demandValue
         link_data['admissiblePaths'] = admissiblePaths
-        print(first, last, links[first][last])
-        exit(0)
+
+        demand_data = demands.setdefault(first, {}).setdefault(last, {})
+        demand_data['demand'] = demandValue
+        demand_data['admissiblePaths'] = admissiblePaths
 
     polska = {
         'nodes': nodes,
-        'links': links}
+        'links': links,
+        'demands': demands
+    }
     with open(os.path.join(OUT_PATH, 'polska.json'), 'w') as f:
         json.dump(polska, f)
 
-
+create_polska_json()
 with open(os.path.join(OUT_PATH, 'polska.json'), 'r') as f:
     data = json.load(f)
 links = data['links']
 nodes = data['nodes']
+demands = data['demands']
