@@ -1,4 +1,4 @@
-from parser import demand_array
+from sndlibparser import demand_array
 import random
 
 def addChromosome():

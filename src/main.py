@@ -1,4 +1,4 @@
-from parser import nodes, links
+from sndlibparser import nodes, links
 from mutation import mutation
 from crossover import crossover
 from select import select

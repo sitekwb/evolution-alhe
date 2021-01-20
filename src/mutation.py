@@ -1,4 +1,4 @@
-from parser import demand_array
+from sndlibparser import demand_array
 from settings import MUTATION_PROB
 import random
 
