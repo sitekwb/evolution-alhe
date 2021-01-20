@@ -4,7 +4,7 @@ from crossover import crossover
 from select import select
 from objectivefunc import stop_condition
 from init import createInitPopulation
-from settings import MI, CROSSOVER_PROB, K, LAMBDA, save
+from settings import MI, CROSSOVER_PROB, KNEE, LAMBDA, save
 
 import random
 
@@ -17,7 +17,7 @@ if __name__ == 'main':
         for i in range(LAMBDA):
             a = random.uniform(0, 1)
             if a < CROSSOVER_PROB:
-                temporary_population.append(mutation(crossover(select(populations[t], K))))
+                temporary_population.append(mutation(crossover(select(populations[t], 2), KNEE)))
             else:
                 temporary_population.append(mutation(select(populations[t], 1)))
         populations.append(temporary_population)

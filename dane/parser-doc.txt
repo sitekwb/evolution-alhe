@@ -13,6 +13,21 @@ links = {
     ...
 }
 
+links_array = [
+    Link_0_1_data,
+    Link_0_2_data,
+    ...,
+    Link_1_3_data,
+    ...,
+]
+
+link_keys = [
+    (0, 1),
+    (0, 2),
+    (1, 3),
+]
+
+
 Link_a_b_data = {
     'setupCost': 156.0,
     'capacity0': 155.0,
@@ -27,6 +42,13 @@ Link_a_b_data = {
         ...
     ]
 }
+
+
+demands_array = [
+    admissible_paths_0_1,
+    admissible_paths_0_2,
+    ...
+]
 
 // demands i admissible_paths są podłączone pod link_data
 
