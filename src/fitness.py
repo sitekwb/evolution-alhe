@@ -1,5 +1,5 @@
 import logging
-import sys
+from settings import MODULARITY
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
@@ -44,7 +44,7 @@ def ceildiv(a, b):
     return -(-a // b)
 
 
-def calc_fitness_aggregated(chromosome, modularity):
+def calc_fitness_aggregated(chromosome):
     gene_i = 0
     for link_start, link_rest in links.items():
         for link_end, link_data in link_rest.items():
@@ -56,21 +56,22 @@ def calc_fitness_aggregated(chromosome, modularity):
                 nodes_loads[edge[1]] += link_data['demand']
 
             logging.debug(f"loads: {nodes_loads}")
-            gene_i +=1
+            gene_i += 1
 
     if len(chromosome) != gene_i:
-        logging.error("Invididual does not represent vaild genotype")
+        logging.error("Individual does not represent valid genotype")
 
     fitness = 0
     for load in nodes_loads:
-        fitness += ceildiv(load, modularity)
-        logging.debug(f"Load: {load}, mod: {modularity}, fitness: {fitness}")
+        fitness += ceildiv(load, MODULARITY)
+        logging.debug(f"Load: {load}, mod: {MODULARITY}, fitness: {fitness}")
 
     logging.debug(f"Fitness: {fitness}")
 
     return fitness
 
-def calc_fitness_distributed(chromosome, modularity):
+
+def calc_fitness_distributed(chromosome):
     gene_i = 0
     for link_start, link_rest in links.items():
         for link_end, link_data in link_rest.items():
@@ -102,12 +103,20 @@ def calc_fitness_distributed(chromosome, modularity):
 
     fitness = 0
     for load in nodes_loads:
-        fitness += ceildiv(load - 0.00001, modularity)        # TODO co z ogonkiem? przykład z wyżej pokazuje problemix
-        logging.debug(f"Load: {load}, mod: {modularity}, fitness: {fitness}")
+        fitness += ceildiv(load - 0.00001, MODULARITY)        # TODO co z ogonkiem? przykład z wyżej pokazuje problemix
+        logging.debug(f"Load: {load}, mod: {MODULARITY}, fitness: {fitness}")
 
     logging.debug(f"Fitness: {fitness}")
 
     return fitness
 
-#calc_fitness_aggregated([0,2,0,1], 50)
-calc_fitness_distributed([0.37, 0.20, 0.10, 0.3, 0, 1, 1, 1], 50)
+
+def calc_fitness(chromosome, is_distributed):
+    if is_distributed:
+        return calc_fitness_distributed(chromosome)
+    else:
+        return calc_fitness_aggregated(chromosome)
+
+
+#   calc_fitness_aggregated([0,2,0,1], 50)
+calc_fitness_distributed([0.37, 0.20, 0.10, 0.3, 0, 1, 1, 1])
