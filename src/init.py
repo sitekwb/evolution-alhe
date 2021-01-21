@@ -1,8 +1,14 @@
 from sndlibparser import demand_array
+from fitness import *
 import random
 
-def addChromosome():
+def addChromosomeAggregated():
     return [random.randrange(len(paths)) for paths in demand_array]
 
-def createInitPopulation(mi):
-    return [addChromosome() for _ in range(mi)]
+def createInitPopulationAggregated(mi):
+    population = []
+    for _ in range(mi):
+        chromosome = addChromosomeAggregated()
+        fitness = calc_fitness_aggregated(chromosome)
+        population.append((chromosome, fitness))
+    return population

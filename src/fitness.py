@@ -1,4 +1,5 @@
 import logging
+import sys
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
@@ -43,11 +44,11 @@ def ceildiv(a, b):
     return -(-a // b)
 
 
-def calc_fitness_aggregated(individual, modularity):
+def calc_fitness_aggregated(chromosome, modularity):
     gene_i = 0
     for link_start, link_rest in links.items():
         for link_end, link_data in link_rest.items():
-            path_index = individual[gene_i]
+            path_index = chromosome[gene_i]
             path = link_data['admissiblePaths'][path_index]
             start_node_i = path[0][0]
             nodes_loads[start_node_i] += link_data['demand']
@@ -57,7 +58,7 @@ def calc_fitness_aggregated(individual, modularity):
             logging.debug(f"loads: {nodes_loads}")
             gene_i +=1
 
-    if len(individual) != gene_i:
+    if len(chromosome) != gene_i:
         logging.error("Invididual does not represent vaild genotype")
 
     fitness = 0
@@ -69,14 +70,14 @@ def calc_fitness_aggregated(individual, modularity):
 
     return fitness
 
-def calc_fitness_distributed(individual, modularity):
+def calc_fitness_distributed(chromosome, modularity):
     gene_i = 0
     for link_start, link_rest in links.items():
         for link_end, link_data in link_rest.items():
             paths_no = len(link_data['admissiblePaths'])
             paths = link_data['admissiblePaths']
 
-            genes = individual[gene_i:gene_i + paths_no]
+            genes = chromosome[gene_i:gene_i + paths_no]
             genes_total = sum(genes)
             if genes_total == 0:
                 logging.warning("All genes had value 0, forcing load on first path")
@@ -94,7 +95,7 @@ def calc_fitness_distributed(individual, modularity):
             logging.debug(f"loads after link: {nodes_loads}")
             gene_i += paths_no
 
-    if len(individual) != gene_i:
+    if len(chromosome) != gene_i:
         logging.error("Invididual does not represent vaild genotype")
 
     nodes_loads[-1] = 0.00000000000006
@@ -107,7 +108,6 @@ def calc_fitness_distributed(individual, modularity):
     logging.debug(f"Fitness: {fitness}")
 
     return fitness
-
 
 #calc_fitness_aggregated([0,2,0,1], 50)
 calc_fitness_distributed([0.37, 0.20, 0.10, 0.3, 0, 1, 1, 1], 50)
