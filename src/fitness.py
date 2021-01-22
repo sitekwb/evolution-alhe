@@ -1,5 +1,5 @@
 import logging
-from settings import MODULARITY
+from settings import settings
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
@@ -63,8 +63,8 @@ def calc_fitness_aggregated(chromosome):
 
     fitness = 0
     for load in nodes_loads:
-        fitness += ceildiv(load, MODULARITY)
-        logging.debug(f"Load: {load}, mod: {MODULARITY}, fitness: {fitness}")
+        fitness += ceildiv(load, settings["MODULARITY"])
+        logging.debug(f'Load: {load}, mod: {settings["MODULARITY"]}, fitness: {fitness}')
 
     logging.debug(f"Fitness: {fitness}")
 
@@ -103,8 +103,8 @@ def calc_fitness_distributed(chromosome):
 
     fitness = 0
     for load in nodes_loads:
-        fitness += ceildiv(load - 0.00001, MODULARITY)        # TODO co z ogonkiem? przykład z wyżej pokazuje problemix
-        logging.debug(f"Load: {load}, mod: {MODULARITY}, fitness: {fitness}")
+        fitness += ceildiv(load - 0.00001, settings["MODULARITY"])        # TODO co z ogonkiem? przykład z wyżej pokazuje problemix
+        logging.debug(f'Load: {load}, mod: {settings["MODULARITY"]}, fitness: {fitness}')
 
     logging.debug(f"Fitness: {fitness}")
 

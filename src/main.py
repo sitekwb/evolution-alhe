@@ -5,7 +5,7 @@ from select import select
 from objectivefunc import stop_condition
 from init import createInitPopulation
 from fitness import *
-from settings import MI, CROSSOVER_PROB, KNEE, LAMBDA, save, DISTRIBUTED
+from settings import settings, save
 
 import sys
 import random
@@ -22,21 +22,21 @@ def find_best_individual(population):
 
 if __name__ == 'main':
     populations = []
-    populations.append(createInitPopulation(MI, DISTRIBUTED)) # MI elements
+    populations.append(createInitPopulation(settings["MI"], settings["DISTRIBUTED"])) # MI elements
     t = 0
     stale_generations = 0
     lowest_fitness = sys.maxsize
     while not stop_condition(t, stale_generations, lowest_fitness):
         temporary_population = []
-        for i in range(LAMBDA):
+        for i in range(settings["LAMBDA"]):
             a = random.uniform(0, 1)
-            if a < CROSSOVER_PROB:
-                chromosome = mutation(crossover(select(populations[t], 2), KNEE))
-                fitness = calc_fitness(chromosome, DISTRIBUTED)
+            if a < settings["CROSSOVER_PROB"]:
+                chromosome = mutation(crossover(select(populations[t], 2), settings["KNEE"]))
+                fitness = calc_fitness(chromosome, settings["DISTRIBUTED"])
                 temporary_population.append((chromosome, fitness))
             else:
-                mutation(select(populations[t], 1))
-                fitness = calc_fitness(chromosome, DISTRIBUTED)
+                chromosome = mutation(select(populations[t], 1))
+                fitness = calc_fitness(chromosome, settings["DISTRIBUTED"])
                 temporary_population.append((chromosome, fitness))
 
         best_indiv = find_best_individual(temporary_population)
