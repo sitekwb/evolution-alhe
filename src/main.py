@@ -11,6 +11,17 @@ import sys
 import random
 
 
+# WOJTEK:
+# MAIN
+# PARSER
+# MUTATION
+# INIT
+
+# KACPER:
+# KOSZTA Z WĘZŁÓW NA KRAWĘDZIE
+# RESZTA
+
+
 def find_best_individual(population):
     fitness = sys.maxsize
     for individual in population:
