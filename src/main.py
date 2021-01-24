@@ -5,7 +5,7 @@ from select import select
 from objectivefunc import stop_condition
 from init import createInitPopulation
 from fitness import *
-from settings import MI, CROSSOVER_PROB, CROSSOVER_POINTS_COUNT, LAMBDA, save
+from settings import settings, save
 
 import sys
 import random
@@ -43,11 +43,11 @@ if __name__ == 'main':
     lowest_fitness = sys.maxsize
     while not stop_condition(t, stale_generations_count, lowest_fitness):
         temporary_population = []
-        for i in range(LAMBDA):
+        for i in range(settings["LAMBDA"]):
             a = random.uniform(0, 1)
-            if a < CROSSOVER_PROB:
-                chromosome = mutation(crossover(select(populations[t], k=2), CROSSOVER_POINTS_COUNT))
-                fitness = calc_fitness(chromosome)
+            if a < settings["CROSSOVER_PROB"]:
+                chromosome = mutation(crossover(select(populations[t], k=2), settings["KNEE"]))
+                fitness = calc_fitness(chromosome, settings["DISTRIBUTED"])
                 temporary_population.append((chromosome, fitness))
             else:
                 chromosome = mutation(select(populations[t], 1))

@@ -1,8 +1,10 @@
 from sndlibparser import demand_array
-from settings import MUTATION_PROB, DISTRIBUTED
+from settings import settings
 import random
 
+
 def mutation(chromosome):
+    MUTATION_PROB = settings["MUTATION_PROB"]
     p = random.uniform(0, 1)
     # mutate only with MUTATION_PROB
     if p < MUTATION_PROB:

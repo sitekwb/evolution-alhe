@@ -6,3 +6,5 @@ dokumentacja/main.log
 dokumentacja/main.synctex.gz
 src/__pycache__
 src/settings.pyc
+.idea/
+git

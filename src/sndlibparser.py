@@ -3,6 +3,7 @@ import json
 from settings import OUT_PATH
 import os
 
+
 def extract_indexes(text):
     k1 = text.find('_')
     k2 = text.find('_', k1+1)

@@ -3,6 +3,7 @@ import random
 
 from settings import MODULARITY, DISTRIBUTED
 from sndlibparser import demand_array, link_keys
+from settings import settings
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
@@ -63,7 +64,7 @@ def calc_fitness_distributed(chromosome):
         gene_i += paths_no
 
     if len(chromosome) != gene_i:
-        logging.error("Invididual does not represent vaild genotype")
+        logging.error("Individual does not represent valid genotype")
 
     fitness = 0
     for load in edges_loads:
