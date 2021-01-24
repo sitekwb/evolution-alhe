@@ -1,41 +1,7 @@
 import logging
-from settings import MODULARITY
+from settings import MODULARITY, DISTRIBUTED
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-
-link_keys = [
-        (0, 1),
-        (0, 2),
-        (1, 3),
-        (1, 5)
-    ]
-
-Link_0_1_data = {
-        'demand': 101.00,
-        'admissiblePaths': [
-            [(0, 1), (1, 2)]
-        ]
-    }
-
-Link_0_2_data = {
-        'demand': 110.00,
-        'admissiblePaths': [
-            [(0, 1), (1, 2)],
-            [(0, 3), (3, 10)],
-            [(0, 5), (5, 7), (7, 8)]
-        ]
-    }
-
-links = {
-    0: {
-        1: Link_0_1_data,
-        2: Link_0_2_data
-    },
-    1: {
-        3: Link_0_1_data,
-        5: Link_0_2_data
-    }
-}
 
 nodes_loads = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -44,6 +10,7 @@ def ceildiv(a, b):
     return -(-a // b)
 
 
+# na to jeszcze nie patrzyłem po zmianach w parserze
 def calc_fitness_aggregated(chromosome):
     gene_i = 0
     for link_start, link_rest in links.items():
@@ -111,8 +78,8 @@ def calc_fitness_distributed(chromosome):
     return fitness
 
 
-def calc_fitness(chromosome, is_distributed):
-    if is_distributed:
+def calc_fitness(chromosome):
+    if DISTRIBUTED == 1:
         return calc_fitness_distributed(chromosome)
     else:
         return calc_fitness_aggregated(chromosome)

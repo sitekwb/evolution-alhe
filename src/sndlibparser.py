@@ -28,8 +28,12 @@ def create_polska_json():
     links = {}
     demands = {}
     demand_array = []
+    link_array = []
+    link_keys = []
+    demand_keys = []
     for link in root.iter('link'):
         first, last = extract_indexes(link.get('id'))
+        link_keys.append((first, last))
         data = {}
         data['setupCost'] = float(link.find('setupCost').text)
         i = 0
@@ -38,37 +42,47 @@ def create_polska_json():
             data['cost{}'.format(i)] = float(module.find('cost').text)
             i += 1
         links.setdefault(first, {})[last] = data
+        link_array.append(data)
 
     for demand in root.iter('demand'):
         first, last = extract_indexes(demand.get('id'))
+        demand_keys.append((first, last))
         demandValue = float(demand.find('demandValue').text)
         admissiblePaths = []
         for admissiblePath in demand.iter('admissiblePath'):
             path = [extract_indexes(link_id.text) for link_id in admissiblePath.iter('linkId')]
             admissiblePaths.append(path)
-        
-        link_data = links.setdefault(first, {}).setdefault(last, {})
-        link_data['demand'] = demandValue
-        link_data['admissiblePaths'] = admissiblePaths
 
         demand_data = demands.setdefault(first, {}).setdefault(last, {})
         demand_data['demand'] = demandValue
         demand_data['admissiblePaths'] = admissiblePaths
 
-        demand_array.append(admissiblePaths)
+        data = {}
+        data['demand'] = demandValue
+        data['admissiblePaths'] = admissiblePaths
+        demand_array.append(data)
+
     polska = {
         'nodes': nodes,
         'links': links,
+        'link_keys': link_keys,
+        'link_array': link_array,
         'demands': demands,
+        'demand_keys': demand_keys,
         'demand_array': demand_array,
     }
     with open(os.path.join(OUT_PATH, 'polska.json'), 'w') as f:
         json.dump(polska, f)
 
+# if you want to generate parsed json information, please uncomment line below
 # create_polska_json()
+
 with open(os.path.join(OUT_PATH, 'polska.json'), 'r') as f:
     data = json.load(f)
-links = data['links']
 nodes = data['nodes']
+links = data['links']
+link_keys = data['link_keys']
+link_array = data['link_array']
 demands = data['demands']
+demand_keys = data['demand_keys']
 demand_array = data['demand_array']
