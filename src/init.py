@@ -1,7 +1,7 @@
-from sndlibparser import demand_array
 from fitness import *
 import random
-from settings import DISTRIBUTED
+from settings import settings
+
 
 def createInitPopulationDistributed(mi):
     population = []
@@ -28,7 +28,7 @@ def createInitPopulationAggregated(mi):
 
 
 def createInitPopulation(mi):
-    if DISTRIBUTED == 1:
+    if settings["DISTRIBUTED"]:
         return createInitPopulationDistributed(mi)
     else:
         return createInitPopulationAggregated(mi)

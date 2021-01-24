@@ -11,12 +11,14 @@ def extract_indexes(text):
     last = int(text[k2+1:])
     return (first, last)
 
+
 def extract_indexes_from_text(nodes, element):
     source_index = nodes.index(element.find('source').text)
     target_index = nodes.index(element.find('target').text)
     first = min(source_index, target_index)
     last = max(source_index, target_index)
     return (first, last)
+
 
 def create_polska_json():
     XML_NETWORK_PATH = '../dane/polska.xml'
@@ -75,8 +77,10 @@ def create_polska_json():
     with open(os.path.join(OUT_PATH, 'polska.json'), 'w') as f:
         json.dump(polska, f)
 
+
 # if you want to generate parsed json information, please uncomment line below
 # create_polska_json()
+
 
 with open(os.path.join(OUT_PATH, 'polska.json'), 'r') as f:
     data = json.load(f)

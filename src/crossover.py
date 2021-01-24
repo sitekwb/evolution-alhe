@@ -1,15 +1,17 @@
 import random
 import logging
+from settings import settings
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
 
-def crossover(elements, knees):     # list of 2 elements, number of crossover points
+def crossover(elements):     # list of 2 elements, number of crossover points
+    crossover_points_count = settings["CROSSOVER_POINTS_COUNT"]
     logging.debug(f"Parent0:    {elements[0]}")
     logging.debug(f"Parent1:    {elements[1]}")
-    crossover_points = [random.randrange(len(elements[0])) for _ in range(knees)]
+    crossover_points = [random.randrange(len(elements[0])) for _ in range(crossover_points_count)]
     crossover_points.sort()
-    logging.debug(f"Chosen crossover points: {crossover_points} for knees: {knees}, len(elements[0]): {len(elements[0])}")
+    logging.debug(f"Chosen crossover points: {crossover_points}, len(elements[0]): {len(elements[0])}")
     crossover_points.append(len(elements[0]))
 
     offspring = []

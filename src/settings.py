@@ -4,7 +4,7 @@ import json
 import logging
 from varname import nameof
 
-#random.seed(74)
+#  random.seed(74)
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 OUT_PATH = '../out/'
 
@@ -12,7 +12,7 @@ settings = {
         "LAMBDA": 100,  # number of elements in new population
         "MI": 100,  # number of elements in initial population
         "CROSSOVER_PROB": 1,
-        "KNEE": 2,  # number of crossover points
+        "CROSSOVER_POINTS_COUNT": 2,  # number of crossover points
         "MUTATION_PROB": 0.05,
         "TARGET_FITNESS": 15,
         "MAX_GENERATIONS": 20,
@@ -39,10 +39,10 @@ def load_config(path):
 
     logging.info("Settings loaded:" + str(settings))
 
+
 load_config("config.txt")   # TODO its here just for testing
 
-config_str = "lambda{}-mi{}-pc{}-knee{}/".format(settings["LAMBDA"], settings["MI"], settings["CROSSOVER_PROB"], settings["KNEE"])
-config_str = "lambda{}-mi{}-pc{}-knee{}/".format(LAMBDA, MI, CROSSOVER_PROB, CROSSOVER_POINTS_COUNT)
+config_str = "lambda{}-mi{}-pc{}-crossoverpointscount{}/".format(settings["LAMBDA"], settings["MI"], settings["CROSSOVER_PROB"], settings["CROSSOVER_POINTS_COUNT"])
 save_directory = os.path.join(OUT_PATH, config_str)
 if not os.path.exists(save_directory):
     os.makedirs(save_directory)

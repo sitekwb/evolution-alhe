@@ -1,4 +1,3 @@
-from sndlibparser import nodes, links
 from mutation import mutation
 from crossover import crossover
 from select import select
@@ -36,7 +35,7 @@ if __name__ == 'main':
     populations = []
     winner_chromosome = None
     # initialize population and set time to 0
-    populations.append(createInitPopulation(MI)) # MI elements
+    populations.append(createInitPopulation(settings["MI"]))  # MI elements
     t = 0
     # initialize count of generations not getting better to 0
     stale_generations_count = 0
@@ -46,8 +45,8 @@ if __name__ == 'main':
         for i in range(settings["LAMBDA"]):
             a = random.uniform(0, 1)
             if a < settings["CROSSOVER_PROB"]:
-                chromosome = mutation(crossover(select(populations[t], k=2), settings["KNEE"]))
-                fitness = calc_fitness(chromosome, settings["DISTRIBUTED"])
+                chromosome = mutation(crossover(select(populations[t], k=2)))
+                fitness = calc_fitness(chromosome)
                 temporary_population.append((chromosome, fitness))
             else:
                 chromosome = mutation(select(populations[t], 1))

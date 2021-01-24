@@ -1,17 +1,18 @@
 import logging
 import random
 
-from settings import MODULARITY, DISTRIBUTED
 from sndlibparser import demand_array, link_keys
 from settings import settings
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+
 
 def ceildiv(a, b):
     return -(-a // b)
 
 
 def calc_fitness_aggregated(chromosome):
+    MODULARITY = settings["MODULARITY"]
     gene_i = 0
     edges_loads = [0] * len(link_keys)
     for demand_data in demand_array:
@@ -38,6 +39,7 @@ def calc_fitness_aggregated(chromosome):
 
 
 def calc_fitness_distributed(chromosome):
+    MODULARITY = settings["MODULARITY"]
     gene_i = 0
     edges_loads = [0] * len(link_keys)
 
@@ -77,7 +79,7 @@ def calc_fitness_distributed(chromosome):
 
 
 def calc_fitness(chromosome):
-    if DISTRIBUTED == 1:
+    if settings["DISTRIBUTED"]:
         return calc_fitness_distributed(chromosome)
     else:
         return calc_fitness_aggregated(chromosome)

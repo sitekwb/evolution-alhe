@@ -11,7 +11,7 @@ def mutation(chromosome):
         # choose one gene for mutation         
         index = random.randrange(len(chromosome))
         # mutate chosen gene
-        if DISTRIBUTED == 1:
+        if settings["DISTRIBUTED"]:
             chromosome[index] = random.uniform(0, 1)
         else:
             chromosome[index] = random.randrange(len(demand_array[index]))
