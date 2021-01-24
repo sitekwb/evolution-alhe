@@ -12,21 +12,22 @@ def ceildiv(a, b):
 
 def calc_fitness_aggregated(chromosome):
     gene_i = 0
-    nodes_loads = [0] * len(link_keys)
+    edges_loads = [0] * len(link_keys)
     for demand_data in demand_array:
         path_index = chromosome[gene_i]
-        start_node_i, finish_node_i = demand_data['admissiblePaths'][path_index]
-        load_index = link_keys.index((start_node_i, finish_node_i))
-        nodes_loads[load_index] += demand_data['demand']
+        path = demand_data['admissiblePaths'][path_index]
+        for edge in path:
+            link_index = link_keys.index(edge)
+            edges_loads[link_index] += demand_data['demand']
 
-        logging.debug(f"loads: {nodes_loads}")
+        logging.debug(f"loads: {edges_loads}")
         gene_i += 1
 
     if len(chromosome) != gene_i:
         logging.error("Individual does not represent valid genotype")
 
     fitness = 0
-    for load in nodes_loads:
+    for load in edges_loads:
         fitness += ceildiv(load, MODULARITY)
         logging.debug(f"Load: {load}, mod: {MODULARITY}, fitness: {fitness}")
 
@@ -92,6 +93,8 @@ for demand in demand_array:
 
 chromosome[0:7] = [0.1, 0.2, 0.3, 0.1, 0.1, 0.1, 0.1]
 
+chromosome_agg = [0, 1, 0, 1]
+
 print(chromosome)
-#calc_fitness_aggregated([0,2,0,1])
+calc_fitness_aggregated(chromosome_agg)
 calc_fitness_distributed(chromosome)
