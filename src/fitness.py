@@ -1,4 +1,6 @@
 import logging
+import random
+
 from settings import MODULARITY, DISTRIBUTED
 from sndlibparser import demand_array, link_keys
 
@@ -33,40 +35,38 @@ def calc_fitness_aggregated(chromosome):
     return fitness
 
 
-# TODO tego nie przerobiłem
 def calc_fitness_distributed(chromosome):
     gene_i = 0
-    for link_start, link_rest in links.items():
-        for link_end, link_data in link_rest.items():
-            paths_no = len(link_data['admissiblePaths'])
-            paths = link_data['admissiblePaths']
+    edges_loads = [0] * len(link_keys)
 
-            genes = chromosome[gene_i:gene_i + paths_no]
-            genes_total = sum(genes)
-            if genes_total == 0:
-                logging.warning("All genes had value 0, forcing load on first path")
-                genes[0] = 1
-                genes_total = 1
-            genes_normalized = [gene/genes_total for gene in genes]
+    for demand in demand_array:
+        paths_no = len(demand['admissiblePaths'])
+        paths = demand['admissiblePaths']
 
-            for index in range(paths_no):
-                path = paths[index]
-                start_node_i = path[0][0]
-                nodes_loads[start_node_i] += link_data['demand'] * genes_normalized[index]
-                for edge in path:
-                    nodes_loads[edge[1]] += link_data['demand'] * genes_normalized[index]
+        genes = chromosome[gene_i:gene_i + paths_no]
+        genes_total = sum(genes)
+        if genes_total == 0:
+            logging.warning("All genes for this demand had value 0, forcing load on first path")
+            genes[0] = 1
+            genes_total = 1
 
-            logging.debug(f"loads after link: {nodes_loads}")
-            gene_i += paths_no
+        genes_normalized = [gene / genes_total for gene in genes]
+
+        for index in range(paths_no):
+            path = paths[index]
+            for edge in path:
+                link_index = link_keys.index(edge)
+                edges_loads[link_index] += demand['demand'] * genes_normalized[index]
+
+            logging.debug(f"loads after link: {edges_loads}")
+        gene_i += paths_no
 
     if len(chromosome) != gene_i:
         logging.error("Invididual does not represent vaild genotype")
 
-    nodes_loads[-1] = 0.00000000000006
-
     fitness = 0
-    for load in nodes_loads:
-        fitness += ceildiv(load - 0.00001, MODULARITY)        # TODO co z ogonkiem? przykład z wyżej pokazuje problemix
+    for load in edges_loads:
+        fitness += ceildiv(load - 0.00001, MODULARITY)        # safeguard against incorrect roundings
         logging.debug(f"Load: {load}, mod: {MODULARITY}, fitness: {fitness}")
 
     logging.debug(f"Fitness: {fitness}")
@@ -81,5 +81,17 @@ def calc_fitness(chromosome):
         return calc_fitness_aggregated(chromosome)
 
 
-#   calc_fitness_aggregated([0,2,0,1], 50)
-calc_fitness_distributed([0.37, 0.20, 0.10, 0.3, 0, 1, 1, 1])
+demand_array = demand_array[0:4]
+for demand in demand_array:
+    demand['admissiblePaths'] = demand['admissiblePaths'][0:2]
+
+chromosome = []
+for demand in demand_array:
+    for path in demand['admissiblePaths']:
+        chromosome.append(random.random())
+
+chromosome[0:7] = [0.1, 0.2, 0.3, 0.1, 0.1, 0.1, 0.1]
+
+print(chromosome)
+#calc_fitness_aggregated([0,2,0,1])
+calc_fitness_distributed(chromosome)
