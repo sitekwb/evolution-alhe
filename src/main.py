@@ -34,6 +34,7 @@ def find_best_individual(population):
 
 if __name__ == 'main':
     populations = []
+    winner_chromosome = None
     # initialize population and set time to 0
     populations.append(createInitPopulation(MI)) # MI elements
     t = 0
@@ -50,7 +51,7 @@ if __name__ == 'main':
                 temporary_population.append((chromosome, fitness))
             else:
                 chromosome = mutation(select(populations[t], 1))
-                fitness = calc_fitness(chromosome, DISTRIBUTED)
+                fitness = calc_fitness(chromosome)
                 temporary_population.append((chromosome, fitness))
 
         best_chromosome, best_fitness = find_best_individual(temporary_population)
@@ -59,6 +60,7 @@ if __name__ == 'main':
         else:
             stale_generations_count = 0
             lowest_fitness = best_fitness
+            winner_chromosome = best_chromosome
 
         populations.append(temporary_population)
         t += 1

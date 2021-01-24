@@ -3,7 +3,7 @@ import random
 import json
 from varname import nameof
 
-random.seed(74)
+#random.seed(74)
 OUT_PATH = '../out/'
 
 
@@ -16,7 +16,7 @@ TARGET_FITNESS = 15
 MAX_GENERATIONS = 20
 MAX_STALE_GENERATIONS = 3
 DISTRIBUTED = 0
-MODULARITY = 50
+MODULARITY = 1
 
 config_str = "lambda{}-mi{}-pc{}-knee{}/".format(LAMBDA, MI, CROSSOVER_PROB, CROSSOVER_POINTS_COUNT)
 save_directory = os.path.join(OUT_PATH, config_str)
