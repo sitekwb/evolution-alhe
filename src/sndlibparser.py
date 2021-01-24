@@ -3,19 +3,22 @@ import json
 from settings import OUT_PATH
 import os
 
+
 def extract_indexes(text):
     k1 = text.find('_')
     k2 = text.find('_', k1+1)
     first = int(text[k1+1:k2])
     last = int(text[k2+1:])
-    return (first, last)
+    return first, last
+
 
 def extract_indexes_from_text(nodes, element):
     source_index = nodes.index(element.find('source').text)
     target_index = nodes.index(element.find('target').text)
     first = min(source_index, target_index)
     last = max(source_index, target_index)
-    return (first, last)
+    return first, last
+
 
 def create_polska_json():
     XML_NETWORK_PATH = '../dane/polska.xml'
@@ -64,6 +67,7 @@ def create_polska_json():
     }
     with open(os.path.join(OUT_PATH, 'polska.json'), 'w') as f:
         json.dump(polska, f)
+
 
 # create_polska_json()
 with open(os.path.join(OUT_PATH, 'polska.json'), 'r') as f:

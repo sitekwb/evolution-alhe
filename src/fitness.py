@@ -97,7 +97,7 @@ def calc_fitness_distributed(chromosome):
             gene_i += paths_no
 
     if len(chromosome) != gene_i:
-        logging.error("Invididual does not represent vaild genotype")
+        logging.error("Individual does not represent valid genotype")
 
     nodes_loads[-1] = 0.00000000000006
 

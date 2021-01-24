@@ -22,7 +22,7 @@ def find_best_individual(population):
 
 if __name__ == 'main':
     populations = []
-    populations.append(createInitPopulation(settings["MI"], settings["DISTRIBUTED"])) # MI elements
+    populations.append(createInitPopulation(settings["MI"], settings["DISTRIBUTED"]))    # MI elements
     t = 0
     stale_generations = 0
     lowest_fitness = sys.maxsize
