@@ -2,7 +2,7 @@ import random
 import logging
 from settings import settings
 
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+# logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
 
 def crossover(elements):     # list of 2 elements, number of crossover points

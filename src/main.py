@@ -1,10 +1,10 @@
+from settings import settings, save
 from mutation import mutation
 from crossover import crossover
 from select import select
 from objectivefunc import stop_condition
 from init import createInitPopulation
 from fitness import *
-from settings import settings, save
 
 import sys
 import random

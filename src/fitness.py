@@ -4,7 +4,7 @@ import random
 from sndlibparser import demand_array, link_keys
 from settings import settings
 
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+# logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
 
 def ceildiv(a, b):
@@ -84,20 +84,20 @@ def calc_fitness(chromosome):
     else:
         return calc_fitness_aggregated(chromosome)
 
-
-demand_array = demand_array[0:4]
-for demand in demand_array:
-    demand['admissiblePaths'] = demand['admissiblePaths'][0:2]
-
-chromosome = []
-for demand in demand_array:
-    for path in demand['admissiblePaths']:
-        chromosome.append(random.random())
-
-chromosome[0:7] = [0.1, 0.2, 0.3, 0.1, 0.1, 0.1, 0.1]
-
-chromosome_agg = [0, 1, 0, 1]
-
-print(chromosome)
-calc_fitness_aggregated(chromosome_agg)
-calc_fitness_distributed(chromosome)
+#
+# demand_array = demand_array[0:4]
+# for demand in demand_array:
+#     demand['admissiblePaths'] = demand['admissiblePaths'][0:2]
+#
+# chromosome = []
+# for demand in demand_array:
+#     for path in demand['admissiblePaths']:
+#         chromosome.append(random.random())
+#
+# chromosome[0:7] = [0.1, 0.2, 0.3, 0.1, 0.1, 0.1, 0.1]
+#
+# chromosome_agg = [0, 1, 0, 1]
+#
+# print(chromosome)
+# calc_fitness_aggregated(chromosome_agg)
+# calc_fitness_distributed(chromosome)
