@@ -23,13 +23,13 @@ import random
 
 
 def find_best_individual(population):
-    fitness = sys.maxsize
-    for individual in population:
-        if fitness > individual[1]:
-            fitness = individual[1]
-            best = individual
-    # TODO tutaj zwracasz nieistniejącą wartość
-    return individual
+    best_fitness = sys.maxsize
+    best_chromosome = None
+    for chromosome, fitness in population:
+        if fitness < best_fitness:
+            best_fitness = fitness
+            best_chromosome = chromosome
+    return (best_chromosome, best_fitness)
 
 
 if __name__ == 'main':
@@ -49,17 +49,16 @@ if __name__ == 'main':
                 fitness = calc_fitness(chromosome)
                 temporary_population.append((chromosome, fitness))
             else:
-                # TODO tutaj chyba powinno być chromosome =
-                mutation(select(populations[t], 1))
+                chromosome = mutation(select(populations[t], 1))
                 fitness = calc_fitness(chromosome, DISTRIBUTED)
                 temporary_population.append((chromosome, fitness))
 
-        best_indiv = find_best_individual(temporary_population)
-        if best_indiv[1] > lowest_fitness:
+        best_chromosome, best_fitness = find_best_individual(temporary_population)
+        if best_fitness > lowest_fitness:
             stale_generations_count += 1
         else:
             stale_generations_count = 0
-            lowest_fitness = best_indiv[1]
+            lowest_fitness = best_fitness
 
         populations.append(temporary_population)
         t += 1

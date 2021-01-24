@@ -1,29 +1,24 @@
 import logging
 from settings import MODULARITY, DISTRIBUTED
+from sndlibparser import demand_array, link_keys
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-
-nodes_loads = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
 
 def ceildiv(a, b):
     return -(-a // b)
 
 
-# na to jeszcze nie patrzyłem po zmianach w parserze
 def calc_fitness_aggregated(chromosome):
     gene_i = 0
-    for link_start, link_rest in links.items():
-        for link_end, link_data in link_rest.items():
-            path_index = chromosome[gene_i]
-            path = link_data['admissiblePaths'][path_index]
-            start_node_i = path[0][0]
-            nodes_loads[start_node_i] += link_data['demand']
-            for edge in path:
-                nodes_loads[edge[1]] += link_data['demand']
+    nodes_loads = [0] * len(link_keys)
+    for demand_data in demand_array:
+        path_index = chromosome[gene_i]
+        start_node_i, finish_node_i = demand_data['admissiblePaths'][path_index]
+        load_index = link_keys.index((start_node_i, finish_node_i))
+        nodes_loads[load_index] += demand_data['demand']
 
-            logging.debug(f"loads: {nodes_loads}")
-            gene_i += 1
+        logging.debug(f"loads: {nodes_loads}")
+        gene_i += 1
 
     if len(chromosome) != gene_i:
         logging.error("Individual does not represent valid genotype")
@@ -38,6 +33,7 @@ def calc_fitness_aggregated(chromosome):
     return fitness
 
 
+# TODO tego nie przerobiłem
 def calc_fitness_distributed(chromosome):
     gene_i = 0
     for link_start, link_rest in links.items():

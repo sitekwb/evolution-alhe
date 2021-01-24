@@ -14,6 +14,3 @@ def mutation(chromosome):
         else:
             chromosome[index] = random.randrange(len(demand_array[index]))
     return chromosome
-
-
-def mutationDistributed(chromosome):
