@@ -39,7 +39,7 @@ if __name__ == 'main':
                 fitness = calc_fitness(chromosome)
                 temporary_population.append((chromosome, fitness))
             else:
-                chromosome = mutation(select(populations[t], 1))
+                chromosome = mutation(select(populations[t], k=1))
                 fitness = calc_fitness(chromosome)
                 temporary_population.append((chromosome, fitness))
 

@@ -26,7 +26,8 @@ settings = {
         "MAX_GENERATIONS": 20,
         "MAX_STALE_GENERATIONS": 3,
         "DISTRIBUTED": False,
-        "MODULARITY": 50
+        "MODULARITY": 50,
+        "TOURNAMENT_COMPETITION_COUNT": 2,
     }
 
 

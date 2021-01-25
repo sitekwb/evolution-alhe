@@ -1,6 +1,5 @@
 from sndlibparser import demand_array
 from settings import settings, get_logger
-
 import random
 
 logger = get_logger('mutation')
