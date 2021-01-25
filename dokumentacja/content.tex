@@ -6,59 +6,52 @@ jak wpływa na koszt rozwiązania agregacja zapotrzebowań, tzn. czy zapotrzebow
 wszystkich ścieżkach w ramach zapotrzebowania (pełna dezagregacja). Dobrać
 optymalne prawdopodobieństwo operatorów genetycznych oraz liczność populacji. Dane pobrać ze strony http://sndlib.zib.de/home.action, dla sieci polska.
 
-\section{Słownik projektowy}
+\section{Wyjaśnienie pojęć}
+\label{section:explanation}
 
-modularność - 
+\subsection{Modularność}
+Modularność jest to ... 
 
+\subsection{Algorytm Ewolucyjny}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus:
-\begin{align} 
-	\begin{split}
-	(x+y)^3 	&= (x+y)^2(x+y)\\
-					&=(x^2+2xy+y^2)(x+y)\\
-					&=(x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3)\\
-					&=x^3+3x^2y+3xy^2+y^3
-	\end{split}					
-\end{align}
-Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies 
+Zgodnie z wykładami prof. Jarosława Arabasa, Algorytm Ewolucyjny opisuje się za pomocą algorytmu \ref{algorithm:evolutionary}. Na algorytm składają się następujące funkcjonalności:
+\begin{enumerate}
+    \item inicjalizacja populacji,
+    \item główna pętla algorytmu ewolucyjnego,
+    \item mutacja (ang. \textit{mutation}),
+    \item krzyżowanie (ang. \textit{crossover}),
+    \item selekcja (ang. \textit{selection}, oznaczane jako \textit{select}),
+    \item warunek zatrzymania,
+    \item funkcja celu.
+\end{enumerate}
 
-\subsection{Heading on level 2 (subsection)}
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
-\begin{align}
-	A = 
-	\begin{bmatrix}
-	A_{11} & A_{21} \\
-  	A_{21} & A_{22}
-	\end{bmatrix}
-\end{align}
-Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+\section{Założenia projektu}
 
-\subsubsection{Heading on level 3 (subsubsection)}
-Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
+Projekt wykonywany jest w ramach przedmiotu Algorytmy Heurystyczne (ALHE) w semestrze zimowym 2020 na Wydziale EiTI Politechniki Warszawskiej. Prowadzącym projekt jest dr inż. Stanisław Kozdrowski.
 
-\paragraph{Heading on level 4 (paragraph)}
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. 
-
-
-\section{Lists}
-
-\subsection{Example for list (3*itemize)}
+Implementacja projektu jest wykonywana w języku Python. Algorytm ewolucyjny posiada własną implementację i nie jest zaczerpnięty z bibliotek zewnętrznych języka Python. Biblioteki narzędziowe języka Python, którymi się wspomagano, to między innymi biblioteki:
 \begin{itemize}
-	\item First item in a list 
-		\begin{itemize}
-		\item First item in a list 
-			\begin{itemize}
-			\item First item in a list 
-			\item Second item in a list 
-			\end{itemize}
-		\item Second item in a list 
-		\end{itemize}
-	\item Second item in a list 
+    \item xml - do przeprowadzenia parsowania pliku XML do obiektów Python (rozdział \ref{section:preparing})
+    \item tqdm - ukazywania paska postępu
+    \item random - do generacji liczb pseudolosowych (użyto ziarna (ang. \textit{seed}))
+    \item logging - do logowania informacji pomocniczych w czasie działania programu
+    \item json - do zapisu i odczytu plików JSON.
 \end{itemize}
 
-\subsection{Example for list (enumerate)}
-\begin{enumerate}
-	\item First item in a list 
-	\item Second item in a list 
-	\item Third item in a list
-\end{enumerate}
+\section{Przygotowanie danych}
+\label{section:preparing}
+
+Dla sieci ,,polska'', pobrano plik XML oraz TXT ze wszystkimi informacjami dla danych dotyczących terytorium Polski. Następnie, przeprowadzono analizę budowy plików oraz znaczenia poszczególnych terminów. Wyeliminowano z programu dane nieistotne dla rozwiązywanego problemu. Analiza znaczenia terminów przeprowadzona jest w rozdziale \ref{section:explanation}.
+
+Następnie, zbudowano parser, konwertujący wybrane części pliku XML do obiektów języka Python. Budowa słowników i list, w których były przechowywane informacje o sieci, została przedstawiona na poniższym przykładzie:
+\input{parserexample.tex}
+
+\section{Charakterystyka implementacji algorytmu}
+
+\subsection{Mutacja}
+
+itp
+
+\section{Analiza wyników}
+
+% tabela

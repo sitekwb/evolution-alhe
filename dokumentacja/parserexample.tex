@@ -1,0 +1,49 @@
+\lstset{language=Python}
+\begin{lstlisting}
+nodes = ['Gdansk', 'Bydgoszcz', ...]
+
+link_keys = [
+    (0, 1),
+    (0, 2),
+    (1, 3),
+]
+
+links_array = [
+    Link_0_1_data,
+    Link_0_2_data,
+    ...,
+    Link_1_3_data,
+    ...,
+]
+
+Link_a_b_data = {
+    'setupCost': 156.0,
+    'capacity0': 155.0,
+    'capacity1': 622.0,
+    'cost0': 156.0,
+    'cost1': 468.0,
+}
+
+demand_array = [
+    Demand_0_1_data,
+    Demand_0_2_data,
+    ...
+]
+
+Demand_a_b_data = {
+    'demand': 195.00,
+    'admissiblePaths': [
+        [(0,2), (1,2)],
+        [(0,10), (1,10)],
+        [(0,2), (2,9), (7,9), (1,7)],
+        ...
+    ]
+}
+
+demand_keys = [
+    (0, 1),
+    (0, 2),
+    (1, 2),
+]
+
+\end{lstlisting}
