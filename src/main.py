@@ -11,16 +11,6 @@ import random
 
 logger = get_logger('main')
 
-def find_best_individual(population):
-    best_fitness = sys.maxsize
-    best_chromosome = None
-    for chromosome, fitness in population:
-        if fitness < best_fitness:
-            best_fitness = fitness
-            best_chromosome = chromosome
-    return (best_chromosome, best_fitness)
-
-
 if __name__ == 'main':
     populations = []
     winner_chromosome = None

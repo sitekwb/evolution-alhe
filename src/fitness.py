@@ -1,6 +1,7 @@
 import logging
 import random
 import logging
+import sys
 
 from sndlibparser import demand_array, link_keys
 from settings import settings, get_logger
@@ -91,6 +92,16 @@ def calc_fitness(chromosome):
     else:
         logger.debug("Calculating aggregated fintess")
         return calc_fitness_aggregated(chromosome)
+
+
+def find_best_individual(population):
+    best_fitness = sys.maxsize
+    best_chromosome = None
+    for chromosome, fitness in population:
+        if fitness < best_fitness:
+            best_fitness = fitness
+            best_chromosome = chromosome
+    return (best_chromosome, best_fitness)
 
 #
 # demand_array = demand_array[0:4]
