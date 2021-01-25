@@ -4,7 +4,7 @@ import json
 import logging
 from varname import nameof
 
-#  random.seed(74)
+random.seed(74)
 
 def get_logger(filename):
     format_str = '%(asctime)s --- %(levelname)s --- %(name)s --- %(message)s'
@@ -62,6 +62,6 @@ if not os.path.exists(save_directory):
     os.makedirs(save_directory)
 
 
-def save(var):
-    with open(os.path.join(save_directory, nameof(var)), 'w') as f:
+def save(var, name):
+    with open(os.path.join(save_directory, f"{name}.json"), 'w') as f:
         json.dump(var, f)

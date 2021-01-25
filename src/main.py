@@ -11,20 +11,19 @@ import sys
 import random
 
 logger = get_logger('main')
-print(__name__)
 
 if __name__ == '__main__':
     populations = []
+    winner_chromosome = None
+    lowest_fitness = sys.maxsize
     try:
         MI = settings["MI"]
-        winner_chromosome = None
         # initialize population and set time to 0
         logger.debug(f"Creating init population with {MI} chromosomes")
         populations.append(createInitPopulation(MI))  # MI elements
         t = 0
         # initialize count of generations not getting better to 0
         stale_generations_count = 0
-        lowest_fitness = sys.maxsize
         progress_bar = tqdm()
         while not stop_condition(t, stale_generations_count, lowest_fitness):
             temporary_population = []
@@ -69,4 +68,6 @@ if __name__ == '__main__':
         print(e)
     finally:    
         # SAVE
-        save(populations)
+        save(populations, 'populations')
+        save(winner_chromosome, 'winner_chromosome')
+        save(lowest_fitness, 'lowest_fitness')
