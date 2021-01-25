@@ -53,15 +53,15 @@ def calc_fitness_distributed(chromosome):
         paths = demand['admissiblePaths']
 
         genes = chromosome[gene_i:gene_i + paths_count]
-        logger.debug(f"genes: {genes}")
+        # logger.debug(f"genes: {genes}") # checked
         genes_total = sum(genes)
         if genes_total == 0:
-            logging.warning("All genes for this demand had value 0, forcing load on first path")
+            logger.warning("All genes for this demand had value 0, forcing load on first path")
             genes[0] = 1
             genes_total = 1
 
         genes_normalized = [gene / genes_total for gene in genes]
-        logger.debug(f"total: {genes_total}; normalized: {genes_normalized}")
+        # logger.debug(f"total: {genes_total}; normalized: {genes_normalized}") # checked
 
         for index in range(paths_count):
             path = paths[index]
@@ -69,7 +69,6 @@ def calc_fitness_distributed(chromosome):
                 link_index = link_keys.index(edge)
                 edges_loads[link_index] += demand['demand'] * genes_normalized[index]
 
-            logging.debug(f"loads after link: {edges_loads}")
         gene_i += paths_count
 
     if len(chromosome) != gene_i:
