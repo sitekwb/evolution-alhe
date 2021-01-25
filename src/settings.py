@@ -1,3 +1,4 @@
+from ast import increment_lineno
 import os
 import random
 import json
@@ -19,7 +20,6 @@ settings = {
         "MODULARITY": 50,
         "TOURNAMENT_COMPETITION_COUNT": 2,
         "SEED": 74,
-        "RUNID": -1,
         "SHOW_LOG_ON_CONSOLE": False,
     }
 
@@ -59,19 +59,24 @@ load_config(os.path.join(CONFIG_DIR, "config.txt"))
 #     settings['TOURNAMENT_COMPETITION_COUNT']
 # )
 
-runid_filename = os.path.join(CONFIG_DIR, f"runid.txt")
+RUNID_FILENAME = os.path.join(CONFIG_DIR, f"runid.txt")
+RUNID_WAS_IN_SETTINGS = False
 
-if os.path.isfile(runid_filename):
-    with open(runid_filename) as f:
-        runid = int(f.read())
-else:
-    runid = 1
+def serve_runid():
+    if "RUNID" in settings:
+        RUNID_WAS_IN_SETTINGS = True
+        return
+    if os.path.isfile(RUNID_FILENAME):
+        with open(RUNID_FILENAME) as f:
+            runid = int(f.read())
+    else:
+        runid = 1
 
-with open(runid_filename, 'w') as f:
-    f.write(str(runid + 1))
-settings["RUNID"] = str(runid)
+    settings["RUNID"] = str(runid)
 
-save_directory = os.path.join(OUT_DIR, str(runid))
+serve_runid()
+
+save_directory = os.path.join(OUT_DIR, settings["RUNID"])
 if not os.path.exists(save_directory):
     os.makedirs(save_directory)
 
@@ -87,7 +92,8 @@ def get_logger(filename):
     formatter = logging.Formatter(format_str)
     logger = logging.getLogger('alhe.{}'.format(filename))
     logger.setLevel(logging.INFO)
-    fh = logging.FileHandler(os.path.join(OUT_DIR, str(settings["RUNID"]), "log.out"))
+    # TODO remove print(filename, os.path.join(OUT_DIR, settings["RUNID"], "log.out"))
+    fh = logging.FileHandler(os.path.join(OUT_DIR, settings["RUNID"], "log.out"))
     fh.setFormatter(formatter)
     logger.propagate = settings['SHOW_LOG_ON_CONSOLE']
     logger.addHandler(fh)
@@ -96,3 +102,8 @@ def get_logger(filename):
 logger = get_logger('settings')
 for key, value in settings.items():
     logger.info(f"Setting {key}: {value}")
+
+def increment_runid():
+    if not RUNID_WAS_IN_SETTINGS:
+        with open(RUNID_FILENAME, 'w') as f:
+            f.write(str(int(settings["RUNID"]) + 1))

@@ -9,5 +9,5 @@ src/settings.pyc
 .idea/
 git
 out/lambda*
-src/out*
+out/
 src/config.txt

@@ -1,4 +1,4 @@
-from settings import settings, save
+from settings import settings, save, increment_runid
 from mutation import mutation
 from crossover import crossover
 from select import select
@@ -10,9 +10,9 @@ from tqdm import tqdm
 import sys
 import random
 
-logger = get_logger('main')
 
 if __name__ == '__main__':
+    logger = get_logger('main')
     populations = []
     winner_chromosome = None
     lowest_fitness = sys.maxsize
@@ -72,3 +72,4 @@ if __name__ == '__main__':
         save(winner_chromosome, 'winner_chromosome')
         save(lowest_fitness, 'lowest_fitness')
         save(settings, 'settings')
+        increment_runid()
