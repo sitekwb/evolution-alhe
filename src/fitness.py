@@ -8,15 +8,15 @@ from settings import settings, get_logger
 
 logger = get_logger('fitness')
 
+MODULARITY = settings["MODULARITY"]
+logger.debug('modularity is {}'.format(MODULARITY))
+    
 def ceildiv(a, b):
     return -(-a // b)
 
 def calc_fitness_aggregated(chromosome):
-    MODULARITY = settings["MODULARITY"]
-    logger.debug('modularity is {}'.format(MODULARITY))
     gene_i = 0
     edges_loads = [0] * len(link_keys)
-    logger.debug('len: {}; array of zeroes: {}'.format(len(link_keys), edges_loads))
     
     for demand_data in demand_array:
         path_index = chromosome[gene_i]
@@ -27,25 +27,23 @@ def calc_fitness_aggregated(chromosome):
                 logger.warning('Desired link index does not apply to real')
             edges_loads[link_index] += demand_data['demand']
 
-        logging.debug(f"loads: {edges_loads}")
+        logger.debug(f"loads: {edges_loads}")
         gene_i += 1
 
     if len(chromosome) != gene_i:
-        logging.error("Individual does not represent valid genotype")
+        logger.error("Individual does not represent valid genotype")
 
     fitness = 0
     for load in edges_loads:
         fitness += ceildiv(load, MODULARITY)
-        logging.debug(f"Load: {load}, mod: {MODULARITY}, fitness: {fitness}")
+        logger.debug(f"Load: {load}, mod: {MODULARITY}, partial fitness: {fitness}")
 
-    logging.debug(f"Fitness: {fitness}")
+    logger.debug(f"Sum of partial fitnesses: {fitness}")
 
     return fitness
 
 
 def calc_fitness_distributed(chromosome):
-    MODULARITY = settings["MODULARITY"]
-    logger.debug('modularity is {}'.format(MODULARITY))
     gene_i = 0
     edges_loads = [0] * len(link_keys)
 

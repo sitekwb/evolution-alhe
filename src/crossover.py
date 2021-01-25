@@ -7,11 +7,13 @@ logger = get_logger('crossover')
 
 def crossover(elements):     # list of 2 elements, number of crossover points
     crossover_points_count = settings["CROSSOVER_POINTS_COUNT"]
-    logging.debug(f"Parent0:    {elements[0]}")
-    logging.debug(f"Parent1:    {elements[1]}")
-    crossover_points = [random.randrange(len(elements[0])) for _ in range(crossover_points_count)]
+    logger.debug(f"Parent0:    {elements[0]}")
+    logger.debug(f"Parent1:    {elements[1]}")
+    crossover_points = set()
+    while len(crossover_points) != crossover_points_count:
+        crossover_points.add(random.randrange(len(elements[0])))
     crossover_points.sort()
-    logging.debug(f"Chosen crossover points: {crossover_points}, len(elements[0]): {len(elements[0])}")
+    logger.debug(f"Chosen crossover points: {crossover_points}, len(elements[0]): {len(elements[0])}")
     crossover_points.append(len(elements[0]))
 
     offspring = []
@@ -22,7 +24,7 @@ def crossover(elements):     # list of 2 elements, number of crossover points
         parent_no = (parent_no + 1) % 2
         start = point
 
-    logging.debug(f"Offspring:  {offspring}")
+    logger.debug(f"Offspring:  {offspring}")
 
     return offspring
 

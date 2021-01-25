@@ -13,13 +13,15 @@ def mutation(chromosome):
         # choose one gene for mutation         
         index = random.randrange(len(chromosome))
         logger.debug(f"Random index: {index}")
-        chosen_chromosome = chromosome[index] # for debug
-        logger.debug(f"Chosen chromosome: {chosen_chromosome}")
+        chosen_gene = chromosome[index] # for debug
+        logger.debug(f"Chosen gene: {chosen_gene}")
         # mutate chosen gene
         if settings["DISTRIBUTED"]:
             chromosome[index] = random.uniform(0, 1)
         else:
+            possibilities = len(demand_array[index]) # for debug
+            logger.debug(f'Size of this gene possibilities: {possibilities}')
             chromosome[index] = random.randrange(len(demand_array[index]))
-        chosen_chromosome = chromosome[index] # for debug
-        logger.debug(f"Randomly mutated gene: {chosen_chromosome}")
+        chosen_gene = chromosome[index] # for debug
+        logger.debug(f"Randomly mutated gene: {chosen_gene}")
     return chromosome
