@@ -7,10 +7,15 @@ from varname import nameof
 #  random.seed(74)
 
 def get_logger(filename):
-    import os
-    logging.basicConfig(format='%(asctime)s --- %(levelname)s --- %(name)s --- %(message)s')
+    format_str = '%(asctime)s --- %(levelname)s --- %(name)s --- %(message)s'
+    logging.basicConfig(format=format_str)
+    formatter = logging.Formatter(format_str)
     logger = logging.getLogger('alhe.{}'.format(filename))
     logger.setLevel(logging.DEBUG)
+    fh = logging.FileHandler('out.txt')
+    fh.setFormatter(formatter)
+    logger.propagate = True
+    logger.addHandler(fh)
     return logger
 
 OUT_PATH = '../out/'

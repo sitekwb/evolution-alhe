@@ -8,3 +8,5 @@ src/__pycache__
 src/settings.pyc
 .idea/
 git
+out/lambda*
+src/out*

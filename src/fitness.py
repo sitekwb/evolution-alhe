@@ -23,7 +23,8 @@ def calc_fitness_aggregated(chromosome):
         path = demand_data['admissiblePaths'][path_index]
         for edge in path:
             link_index = link_keys.index(edge)
-            logger.debug('Wanted:{};Obtained:{}'.format(edge, link_keys[link_index]))
+            if edge != link_keys[link_index]:
+                logger.warning('Desired link index does not apply to real')
             edges_loads[link_index] += demand_data['demand']
 
         logging.debug(f"loads: {edges_loads}")
