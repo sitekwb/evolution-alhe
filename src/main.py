@@ -53,6 +53,7 @@ if __name__ == '__main__':
                 logger.debug(f'It is a stale generation repeated {stale_generations_count} time')
             else:
                 logger.debug(f"Best generation ever. Chromosome {best_chromosome} with fitness {best_fitness}")
+                logger.info(f"In generation {t} best fitness ever: {best_fitness}")
                 stale_generations_count = 0
                 lowest_fitness = best_fitness
                 winner_chromosome = best_chromosome
