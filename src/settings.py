@@ -27,9 +27,9 @@ settings = {
         "CROSSOVER_PROB": 1,
         "CROSSOVER_POINTS_COUNT": 2,  # number of crossover points
         "MUTATION_PROB": 0.05,
-        "TARGET_FITNESS": 15,
+        "TARGET_FITNESS": 100,
         "MAX_GENERATIONS": 20,
-        "MAX_STALE_GENERATIONS": 3,
+        "MAX_STALE_GENERATIONS": 10,
         "DISTRIBUTED": False,
         "MODULARITY": 50,
         "TOURNAMENT_COMPETITION_COUNT": 2,
@@ -41,8 +41,15 @@ def load_config(path):
         config = open(path, "rt")
         lines = config.readlines()
         for line in lines:
-            setting = line.rstrip().split('=')
-            settings[setting[0]] = int(setting[1])
+            try:
+                setting = line.rstrip().split('=')
+                settings[setting[0]] = int(setting[1])
+            except ValueError:
+                setting = line.rstrip().split('=')
+                if setting[0] in {"CROSSOVER_PROB", "MUTATION_PROB"}:
+                    settings[setting[0]] = float(setting[1])
+                else:
+                    logger.warning(f"Only probabilities can be float (failed to parse {setting})")
         if settings["DISTRIBUTED"] == 1:
             settings["DISTRIBUTED"] = True
         elif settings["DISTRIBUTED"] == 0:
