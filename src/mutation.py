@@ -20,7 +20,7 @@ def mutation(chromosome):
             chromosome[index] = random.uniform(0, 1)
         else:
             possibilities = len(demand_array[index]) # for debug
-            logger.debug(f'Size of this gene possibilities: {possibilities}')
+            logger.debug(f'Size of this gene possibilities: {possibilities}, array of possibilities: {demand_array[index]}')
             chromosome[index] = random.randrange(len(demand_array[index]))
         chosen_gene = chromosome[index] # for debug
         logger.debug(f"Randomly mutated gene: {chosen_gene}")

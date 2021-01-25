@@ -5,14 +5,14 @@ from settings import settings, get_logger
 logger = get_logger('crossover')
 
 
-def crossover(elements):     # list of 2 elements, number of crossover points
+def crossover(elements):     # list of 2 elements
     crossover_points_count = settings["CROSSOVER_POINTS_COUNT"]
     logger.debug(f"Parent0:    {elements[0]}")
     logger.debug(f"Parent1:    {elements[1]}")
     crossover_points = set()
     while len(crossover_points) != crossover_points_count:
         crossover_points.add(random.randrange(len(elements[0])))
-    crossover_points.sort()
+    crossover_points = sorted(crossover_points)
     logger.debug(f"Chosen crossover points: {crossover_points}, len(elements[0]): {len(elements[0])}")
     crossover_points.append(len(elements[0]))
 
