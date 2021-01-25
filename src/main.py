@@ -13,9 +13,9 @@ logger = get_logger('main')
 print(__name__)
 
 if __name__ == '__main__':
+    populations = []
     try:
         MI = settings["MI"]
-        populations = []
         winner_chromosome = None
         # initialize population and set time to 0
         logger.debug(f"Creating init population with {MI} chromosomes")
@@ -60,6 +60,8 @@ if __name__ == '__main__':
             populations.append(temporary_population)
             t += 1
             logger.debug("Going to the next generation")
+    except Exception as e:
+        print(e)
     finally:    
         # SAVE
         save(populations)
