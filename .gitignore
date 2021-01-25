@@ -10,3 +10,4 @@ src/settings.pyc
 git
 out/lambda*
 src/out*
+src/config.txt

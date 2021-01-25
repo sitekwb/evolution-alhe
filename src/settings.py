@@ -14,7 +14,7 @@ def get_logger(filename):
     logger.setLevel(logging.DEBUG)
     fh = logging.FileHandler('out.txt')
     fh.setFormatter(formatter)
-    logger.propagate = True
+    logger.propagate = False
     logger.addHandler(fh)
     return logger
 

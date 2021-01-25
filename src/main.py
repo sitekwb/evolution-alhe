@@ -5,6 +5,7 @@ from select import select
 from objectivefunc import stop_condition
 from init import createInitPopulation
 from fitness import *
+from tqdm import tqdm
 
 import sys
 import random
@@ -24,6 +25,7 @@ if __name__ == '__main__':
         # initialize count of generations not getting better to 0
         stale_generations_count = 0
         lowest_fitness = sys.maxsize
+        progress_bar = tqdm()
         while not stop_condition(t, stale_generations_count, lowest_fitness):
             temporary_population = []
             for i in range(settings["LAMBDA"]):
@@ -61,6 +63,8 @@ if __name__ == '__main__':
             populations.append(temporary_population)
             t += 1
             logger.debug("Going to the next generation")
+            progress_bar.update()
+            progress_bar.set_description(f"{lowest_fitness:9.2f}")
     except Exception as e:
         print(e)
     finally:    
