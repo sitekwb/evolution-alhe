@@ -6,25 +6,15 @@ from varname import nameof
 
 #  random.seed(74)
 
-def get_logger(filename):
-    import os
-    logging.basicConfig(format='%(asctime)s --- %(levelname)s --- %(name)s --- %(message)s')
-    logger = logging.getLogger('alhe.{}'.format(filename))
-    logger.setLevel(logging.DEBUG)
-    return logger
-
-OUT_PATH = '../out/'
-logger = get_logger('settings')
-
 settings = {
         "LAMBDA": 100,  # number of elements in new population
         "MI": 100,  # number of elements in initial population
         "CROSSOVER_PROB": 1,
         "CROSSOVER_POINTS_COUNT": 2,  # number of crossover points
         "MUTATION_PROB": 0.05,
-        "TARGET_FITNESS": 15,
+        "TARGET_FITNESS": 100,
         "MAX_GENERATIONS": 20,
-        "MAX_STALE_GENERATIONS": 3,
+        "MAX_STALE_GENERATIONS": 10,
         "DISTRIBUTED": False,
         "MODULARITY": 50,
         "TOURNAMENT_COMPETITION_COUNT": 2,
@@ -36,8 +26,15 @@ def load_config(path):
         config = open(path, "rt")
         lines = config.readlines()
         for line in lines:
-            setting = line.rstrip().split('=')
-            settings[setting[0]] = int(setting[1])
+            try:
+                setting = line.rstrip().split('=')
+                settings[setting[0]] = int(setting[1])
+            except ValueError:
+                setting = line.rstrip().split('=')
+                if setting[0] in {"CROSSOVER_PROB", "MUTATION_PROB"}:
+                    settings[setting[0]] = float(setting[1])
+                else:
+                    logger.warning(f"Only probabilities can be float (failed to parse {setting})")
         if settings["DISTRIBUTED"] == 1:
             settings["DISTRIBUTED"] = True
         elif settings["DISTRIBUTED"] == 0:
@@ -49,14 +46,26 @@ def load_config(path):
     logger.info("Settings loaded:" + str(settings))
 
 
-load_config("config.txt")   # TODO its here just for testing
+def save(var):
+    with open(os.path.join(save_directory, nameof(var)), 'w') as f:
+        json.dump(var, f)
+
+
+def get_logger(filename):
+    import os
+    logging.basicConfig(format='%(asctime)s --- %(levelname)s --- %(name)s --- %(message)s')
+    logger = logging.getLogger('alhe.{}'.format(filename))
+    logger.setLevel(logging.INFO)
+    return logger
+
+
+OUT_PATH = '../out/'
+logger = get_logger('settings')
+
+load_config("config.txt")
 
 config_str = "lambda{}-mi{}-pc{}-crossoverpointscount{}/".format(settings["LAMBDA"], settings["MI"], settings["CROSSOVER_PROB"], settings["CROSSOVER_POINTS_COUNT"])
 save_directory = os.path.join(OUT_PATH, config_str)
 if not os.path.exists(save_directory):
     os.makedirs(save_directory)
 
-
-def save(var):
-    with open(os.path.join(save_directory, nameof(var)), 'w') as f:
-        json.dump(var, f)
