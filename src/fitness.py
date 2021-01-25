@@ -16,6 +16,7 @@ def calc_fitness_aggregated(chromosome):
     gene_i = 0
     edges_loads = [0] * len(link_keys)
     logger.debug('len: {}; array of zeroes: {}'.format(len(link_keys), edges_loads))
+    
     for demand_data in demand_array:
         path_index = chromosome[gene_i]
         path = demand_data['admissiblePaths'][path_index]
@@ -42,14 +43,16 @@ def calc_fitness_aggregated(chromosome):
 
 def calc_fitness_distributed(chromosome):
     MODULARITY = settings["MODULARITY"]
+    logger.debug('modularity is {}'.format(MODULARITY))
     gene_i = 0
     edges_loads = [0] * len(link_keys)
 
     for demand in demand_array:
-        paths_no = len(demand['admissiblePaths'])
+        paths_count = len(demand['admissiblePaths'])
         paths = demand['admissiblePaths']
 
-        genes = chromosome[gene_i:gene_i + paths_no]
+        genes = chromosome[gene_i:gene_i + paths_count]
+        logger.debug(f"genes: {genes}")
         genes_total = sum(genes)
         if genes_total == 0:
             logging.warning("All genes for this demand had value 0, forcing load on first path")
@@ -57,15 +60,16 @@ def calc_fitness_distributed(chromosome):
             genes_total = 1
 
         genes_normalized = [gene / genes_total for gene in genes]
+        logger.debug(f"total: {genes_total}; normalized: {genes_normalized}")
 
-        for index in range(paths_no):
+        for index in range(paths_count):
             path = paths[index]
             for edge in path:
                 link_index = link_keys.index(edge)
                 edges_loads[link_index] += demand['demand'] * genes_normalized[index]
 
             logging.debug(f"loads after link: {edges_loads}")
-        gene_i += paths_no
+        gene_i += paths_count
 
     if len(chromosome) != gene_i:
         logging.error("Individual does not represent valid genotype")
@@ -82,8 +86,10 @@ def calc_fitness_distributed(chromosome):
 
 def calc_fitness(chromosome):
     if settings["DISTRIBUTED"]:
+        logger.debug("Calclulating distributed fintess")
         return calc_fitness_distributed(chromosome)
     else:
+        logger.debug("Calculating aggregated fintess")
         return calc_fitness_aggregated(chromosome)
 
 #
