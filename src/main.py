@@ -68,7 +68,7 @@ if __name__ == '__main__':
         print(e)
     finally:    
         # SAVE
-        save(populations, 'populations')
+        # save(populations, 'populations')
         save(winner_chromosome, 'winner_chromosome')
         save(lowest_fitness, 'lowest_fitness')
         save(settings, 'settings')
