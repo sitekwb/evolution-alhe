@@ -1,4 +1,6 @@
-from settings import settings
+from settings import settings, get_logger
+
+logger = get_logger('objectivefunc')
 
 
 def stop_condition(generation, stale_generations, fitness):

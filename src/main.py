@@ -9,17 +9,7 @@ from fitness import *
 import sys
 import random
 
-
-# WOJTEK:
-# MAIN
-# PARSER
-# MUTATION
-# INIT
-
-# KACPER:
-# KOSZTA Z WĘZŁÓW NA KRAWĘDZIE
-# RESZTA
-
+logger = get_logger('main')
 
 def find_best_individual(population):
     best_fitness = sys.maxsize

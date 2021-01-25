@@ -1,6 +1,8 @@
 from fitness import *
 import random
-from settings import settings
+from settings import settings, get_logger
+
+logger = get_logger('init')
 
 
 def createInitPopulationDistributed(mi):

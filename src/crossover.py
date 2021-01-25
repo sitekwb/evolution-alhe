@@ -1,8 +1,8 @@
 import random
 import logging
-from settings import settings
+from settings import settings, get_logger
 
-# logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+logger = get_logger('crossover')
 
 
 def crossover(elements):     # list of 2 elements, number of crossover points

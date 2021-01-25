@@ -5,8 +5,16 @@ import logging
 from varname import nameof
 
 #  random.seed(74)
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+
+def get_logger(filename):
+    import os
+    logging.basicConfig(format='%(asctime)s --- %(levelname)s --- %(name)s --- %(message)s')
+    logger = logging.getLogger('alhe.{}'.format(filename))
+    logger.setLevel(logging.DEBUG)
+    return logger
+
 OUT_PATH = '../out/'
+logger = get_logger('settings')
 
 settings = {
         "LAMBDA": 100,  # number of elements in new population
@@ -37,7 +45,7 @@ def load_config(path):
     except FileNotFoundError:
         print(f'File "{path}" not found. Make sure it is in the same folder as python files.\nDefault values will be loaded.')
 
-    logging.info("Settings loaded:" + str(settings))
+    logger.info("Settings loaded:" + str(settings))
 
 
 load_config("config.txt")   # TODO its here just for testing

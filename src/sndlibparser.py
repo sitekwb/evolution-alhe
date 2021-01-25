@@ -1,8 +1,9 @@
 import xml.etree.ElementTree as ET
 import json
-from settings import OUT_PATH
+from settings import OUT_PATH, get_logger
 import os
 
+logger = get_logger('sndlibparser')
 
 def extract_indexes(text):
     k1 = text.find('_')

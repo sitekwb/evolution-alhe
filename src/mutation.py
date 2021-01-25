@@ -1,7 +1,9 @@
 from sndlibparser import demand_array
-from settings import settings
+from settings import settings, get_logger
+
 import random
 
+logger = get_logger('mutation')
 
 def mutation(chromosome):
     MUTATION_PROB = settings["MUTATION_PROB"]

@@ -1,25 +1,27 @@
 import logging
 import random
+import logging
 
 from sndlibparser import demand_array, link_keys
-from settings import settings
+from settings import settings, get_logger
 
-# logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-
+logger = get_logger('fitness')
 
 def ceildiv(a, b):
     return -(-a // b)
 
-
 def calc_fitness_aggregated(chromosome):
     MODULARITY = settings["MODULARITY"]
+    logger.debug('modularity is {}'.format(MODULARITY))
     gene_i = 0
     edges_loads = [0] * len(link_keys)
+    logger.debug('len: {}; array of zeroes: {}'.format(len(link_keys), edges_loads))
     for demand_data in demand_array:
         path_index = chromosome[gene_i]
         path = demand_data['admissiblePaths'][path_index]
         for edge in path:
             link_index = link_keys.index(edge)
+            logger.debug('Wanted:{};Obtained:{}'.format(edge, link_keys[link_index]))
             edges_loads[link_index] += demand_data['demand']
 
         logging.debug(f"loads: {edges_loads}")
