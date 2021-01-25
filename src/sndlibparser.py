@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import json
-from settings import OUT_PATH, get_logger
+from settings import get_logger, CONFIG_DIR
 import os
 
 logger = get_logger('sndlibparser')
@@ -75,7 +75,7 @@ def create_polska_json():
         'demand_keys': demand_keys,
         'demand_array': demand_array,
     }
-    with open(os.path.join(OUT_PATH, 'polska.json'), 'w') as f:
+    with open(os.path.join(CONFIG_DIR, 'polska.json'), 'w') as f:
         json.dump(polska, f)
 
 
@@ -83,7 +83,7 @@ def create_polska_json():
 # create_polska_json()
 
 
-with open(os.path.join(OUT_PATH, 'polska.json'), 'r') as f:
+with open(os.path.join(CONFIG_DIR, 'polska.json'), 'r') as f:
     data = json.load(f)
 nodes = data['nodes']
 links = data['links']

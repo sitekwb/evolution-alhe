@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
             logger.debug("Finding best individual")
             best_chromosome, best_fitness = find_best_individual(temporary_population)
-            logger.info(f'Best fitness in this generation is {best_fitness}')
+            logger.info(f'Best fitness in generation {t} is {best_fitness}')
             if best_fitness > lowest_fitness:
                 stale_generations_count += 1
                 logger.debug(f'It is a stale generation repeated {stale_generations_count} time')
@@ -71,3 +71,4 @@ if __name__ == '__main__':
         save(populations, 'populations')
         save(winner_chromosome, 'winner_chromosome')
         save(lowest_fitness, 'lowest_fitness')
+        save(settings, 'settings')
