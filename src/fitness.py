@@ -27,16 +27,17 @@ def calc_fitness_aggregated(chromosome):
                 logger.warning('Desired link index does not apply to real')
             edges_loads[link_index] += demand_data['demand']
 
-        logger.debug(f"loads: {edges_loads}")
+        # logger.debug(f"loads: {edges_loads}")
         gene_i += 1
 
     if len(chromosome) != gene_i:
         logger.error("Individual does not represent valid genotype")
+        sys.exit(1)
 
     fitness = 0
     for load in edges_loads:
         fitness += ceildiv(load, MODULARITY)
-        logger.debug(f"Load: {load}, mod: {MODULARITY}, partial fitness: {fitness}")
+        # logger.debug(f"Load: {load}, mod: {MODULARITY}, partial fitness: {fitness}")
 
     logger.debug(f"Sum of partial fitnesses: {fitness}")
 

@@ -21,7 +21,7 @@ def mutation(chromosome):
         else:
             possibilities_array = demand_array[index]['admissiblePaths']
             possibilities_count = len(possibilities_array)
-            logger.debug(f'Size of this gene possibilities: {possibilities_count}, array of possibilities: {possibilities_array}')
+            logger.debug(f'Size of this gene possibilities: {possibilities_count}')
             chromosome[index] = random.randrange(possibilities_count)
         chosen_gene = chromosome[index] # for debug
         logger.debug(f"Randomly mutated gene: {chosen_gene}")

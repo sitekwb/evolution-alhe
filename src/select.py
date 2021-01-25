@@ -6,7 +6,8 @@ logger = get_logger('select')
 
 # (default binary) tournament selection without replacement
 def select(population, k):
-    logger.debug(f"competition population: {population}")
+    population_fitnesses = [fitness for _, fitness in population]
+    logger.debug(f"all population fitnesses: {population_fitnesses}")
     ret_list = []
     TOURNAMENT_COMPETITION_COUNT = settings["TOURNAMENT_COMPETITION_COUNT"]
     logger.debug(f"competition size: {TOURNAMENT_COMPETITION_COUNT}")
@@ -14,7 +15,8 @@ def select(population, k):
     for _ in range(k):
         # COMPETITION (SZRANKI)
         competition_chromosomes = random.sample(population, TOURNAMENT_COMPETITION_COUNT)
-        logger.debug(f"competition chromosomes {competition_chromosomes}")
+        competition_fitnesses = [fitness for _, fitness in competition_chromosomes] # only for debug TODO remove later
+        logger.debug(f"competition chromosomes {competition_fitnesses}")
         best_chromosome = None
         best_fitness = sys.maxsize
         for chromosome, fitness in competition_chromosomes:
@@ -22,7 +24,7 @@ def select(population, k):
                 best_chromosome = chromosome
                 best_fitness = fitness
         
-        logger.debug(f"best chromosome {best_chromosome} and fitness {best_fitness}")
+        logger.debug(f"winning fitness {best_fitness}")
         if not best_chromosome:
             logger.error('Chromosome in tournament selection not found')
             sys.exit(1)
