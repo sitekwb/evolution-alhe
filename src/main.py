@@ -35,15 +35,19 @@ if __name__ == '__main__':
                 temporary_population.append((chromosome, fitness))
 
         best_chromosome, best_fitness = find_best_individual(temporary_population)
-        if best_fitness > lowest_fitness:
+        if best_fitness >= lowest_fitness:
             stale_generations_count += 1
         else:
             stale_generations_count = 0
             lowest_fitness = best_fitness
             winner_chromosome = best_chromosome
 
+        logger.info(f"Generation {t}: stale: {stale_generations_count}, lowest fitness: {lowest_fitness}")
+
         populations.append(temporary_population)
         t += 1
-    
+
+    logger.info(f"Winner individual: {lowest_fitness}, {winner_chromosome}")
+
     # SAVE
     save(populations)
