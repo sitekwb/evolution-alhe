@@ -10,8 +10,9 @@ import sys
 import random
 
 logger = get_logger('main')
+print(__name__)
 
-if __name__ == 'main':
+if __name__ == '__main__':
     populations = []
     winner_chromosome = None
     # initialize population and set time to 0
