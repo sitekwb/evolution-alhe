@@ -4,14 +4,16 @@ import random
 
 logger = get_logger('mutation')
 
+
 def mutation(chromosome):
     ch = chromosome
     if settings["MUTATION_FREQUENCY"] == -1:
         return single_mutation(ch)
 
-    for _ in range(int(settings["LAMBDA"] * settings["MUTATION_FREQUENCY"])):
+    for _ in range(settings["MUTATION_FREQUENCY"]):
         ch = single_mutation(ch)
     return ch
+
 
 def single_mutation(chromosome):
     MUTATION_PROB = settings["MUTATION_PROB"]

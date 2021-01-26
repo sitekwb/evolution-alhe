@@ -13,6 +13,7 @@ import numpy as np
 import sys
 import random
 
+
 def plot(populations):
     fig, ax = plt.subplots()
 
@@ -24,11 +25,11 @@ def plot(populations):
         plt.scatter(x, y, c = 'blue', s = 1)
 
     ax.set(xlabel='Generation', ylabel='Fitness',
-           title='')    # TODO some data possibly
+           title='')
     ax.grid()
 
-    fig.savefig("test.png")  # TODO namefile?
     plt.show()
+
 
 if __name__ == '__main__':
     logger = get_logger('main')

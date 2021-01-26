@@ -21,7 +21,7 @@ settings = {
         "TOURNAMENT_COMPETITION_COUNT": 2,
         "SEED": 74,
         "SHOW_LOG_ON_CONSOLE": False,
-        "MUTATION_FREQUENCY": 0.1,
+        "MUTATION_FREQUENCY": 1,
     }
 
 def load_config(path):
@@ -34,7 +34,7 @@ def load_config(path):
                     settings[setting[0]] = int(setting[1])
                 except ValueError:
                     setting = line.rstrip().split('=')
-                    if setting[0] in {"CROSSOVER_PROB", "MUTATION_PROB", "MUTATION_FREQUENCY"}:
+                    if setting[0] in {"CROSSOVER_PROB", "MUTATION_PROB"}:
                         settings[setting[0]] = float(setting[1])
                     else:
                         logger.warning(f"Only probabilities can be float (failed to parse {setting})")
