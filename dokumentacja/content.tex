@@ -14,7 +14,7 @@ Modularność jest to ...
 
 \subsection{Algorytm Ewolucyjny}
 
-Zgodnie z wykładami prof. Jarosława Arabasa, Algorytm Ewolucyjny opisuje się za pomocą algorytmu \ref{algorithm:evolutionary}. Na algorytm składają się następujące funkcjonalności:
+Zgodnie z wykładami prof. Jarosława Arabasa, Algorytm Ewolucyjny opisuje się za pomocą algorytmu, ukazanego w rozdziale \ref{section:mainloop}. Na algorytm składają się następujące funkcjonalności:
 \begin{enumerate}
     \item inicjalizacja populacji,
     \item główna pętla algorytmu ewolucyjnego,
@@ -38,6 +38,8 @@ Implementacja projektu jest wykonywana w języku Python. Algorytm ewolucyjny pos
     \item json - do zapisu i odczytu plików JSON.
 \end{itemize}
 
+W projekcie zaimplementowano możliwość uruchomienia programu dla sieci w pełni zagregowanej lub sieci w pełni rozproszonej (dezagregacja, ang. \textit{distributed}). Dodano także możliwość sterowania modularnością algorytmu.
+
 \section{Przygotowanie danych}
 \label{section:preparing}
 
@@ -46,12 +48,116 @@ Dla sieci ,,polska'', pobrano plik XML oraz TXT ze wszystkimi informacjami dla d
 Następnie, zbudowano parser, konwertujący wybrane części pliku XML do obiektów języka Python. Budowa słowników i list, w których były przechowywane informacje o sieci, została przedstawiona na poniższym przykładzie:
 \input{parserexample.tex}
 
+\section{Możliwość konfiguracji parametrów}
+
+Zaimplementowano możliwość konfiguracji parametrów, dostępnych w czasie działania programu ze wszystkich plików programu, w słowniku \textit{settings}. W pliku \textit{config/config.txt} istnieje możliwość ustalenia własnych wartości parametrów, bez konieczności znajomości języka Python. Sposób definiowania parametrów to: <klucz>=<wartość>, np. MODULARITY=5.
+
+W pliku \textit{config.txt}, prawda definiowana jest jako 1, fałsz jako 0. Później wartość parametru jest konwertowana na typ \textit{bool} w języku Python.
+
+W języku Python zapisane są ustawienia domyślne, które są nadpisywane przez ustawienia pliku \textit{config.txt}. Można ustawić następujące parametry:
+\begin{itemize}
+    \item LAMBDA - liczba chromosomów w każdej kolejnej populacji,
+    \item MI - liczba chromosomów w populacji początkowej,
+    \item CROSSOVER\_PROB - prawdopodobieństwo krzyżowania,
+    \item CROSSOVER\_POINTS\_COUNT - liczba punktów krzyżowania (domyślnie 2),
+    \item MUTATION\_PROB - prawdopodobieństwo mutacji,
+    \item TARGET\_FITNESS - docelowa wartość funkcji celu (jeden z warunków wystarczających zatrzymania),
+    \item MAX\_GENERATIONS - maksymalna liczba pokoleń (jeden z warunków wystarczających zatrzymania),
+    \item MAX\_STALE\_GENERATIONS - maksymalna liczba niepoprawiających się pokoleń (jeden z warunków wystarczających zatrzymania),
+    \item DISTRIBUTED - określa czy algorytm jest rozproszony (1), albo zagregowany (0),
+    \item MODULARITY - modularność algorytmu,
+    \item TOURNAMENT\_COMPETITION\_COUNT - wielkość szranek selekcji turniejowej,
+    \item SEED - wartość ziarna generacji liczb pseudolosowych (podczas testowania ustawiona na 74),
+    \item SHOW\_LOG\_ON\_CONSOLE - czy propagować logi programu na konsolę użytkownika,
+    \item MUTATION\_FREQUENCY - jaka część populacji (od 0 do 1) ma zostać poddana mutacji. Wartość -1 powoduje wyłączenie tej funkcji i wtedy tylko 1 gen populacji zostaje zmutowany.
+\end{itemize}
+
 \section{Charakterystyka implementacji algorytmu}
+
+\subsection{Inicjalizacja populacji}
+
+Standardowa procedura inicjalizacji losuje wartości chromosomów z całej przestrzeni przeszukiwań i zwraca uzyskaną populację.
+
+\subsection{Główna pętla algorytmu}
+\label{section:mainloop}
+
+Zgodnie z działaniem algorytmu ewolucyjnego, główna pętla algorytmu, umieszczona w pliku \textit{src/main.py}, wywołuje funkcje z pozostałych plików programu i steruje przebiegiem pętli. Algorytm pętli głównej został ukazany poniżej:
+\input{mainloop}
 
 \subsection{Mutacja}
 
-itp
+Jeżeli wartość parametru MUTATION\_FREQUENCY jest równa -1, wtedy mutacja wykonywana jest na jednym, wybranym losowo z rozkładem jednostajnym, genie z populacji. Jeżeli wartość tego parametru jest w granicach od 0 do 1, taki procent liczby genów zostaje wylosowany ze zwracaniem z populacji i poddany mutacji. Mutacja polega na zmianie wylosowanego genu na wartość, wylosowaną ze wszystkich dostępnych wartości.
+
+\subsection{Krzyżowanie}
+
+Krzyżowanie jest wielopunktowe, zawsze z dwóch osobników powstaje jeden skrzyżowany. Liczbę punktów krzyżowania określa się w parametrze CROSSOVER\_POINTS\_COUNT, domyślnie równym 2.
+
+\subsection{Selekcja}
+
+Selekcja jest turniejowa. Z rozkładem jednostajnym bez zwracania losowane są różne chromosomy do szranek. Wielkość szranek jest określona w parametrze TOURNAMENT\_COMPETITION\_COUNT, domyślnie równym 2.
+
+\subsection{Warunek zatrzymania}
+
+Algorytm zatrzymuje się, jeżeli wydarzy się co najmniej jedno z trzech zdarzeń:
+\begin{itemize}
+    \item osiągnięta została maksymalna liczba pokoleń (MAX\_GENERATIONS)
+    \item osiągnięta została maksymalna liczba niepolepszających pokoleń (MAX\_STALE\_GENERATIONS)
+    \item osiągnięta została pożądana wartość funkcji celu (TARGET\_FITNESS)
+\end{itemize}
+
+\subsection{Funkcja celu}
+
+Jest obliczana zgodnie z zasadami, opisanymi w zadaniu. Chromosom zagregowany składa się z liczb od 0 do 5, oznaczających indeksy dozwolonych ścieżek dla kolejnych zapotrzebowań. Chromosom rozproszony zaś, składa się z liczb od 0 do 1 dla każdej dozwolonej ścieżki dla kolejnych zapotrzebowań. Później finalna wartość procentowa przepływu daną dozwoloną ścieżką jest wartością znormalizowaną w ramach każdego zapotrzebowania.
 
 \section{Analiza wyników}
 
-% tabela
+Zgodnie z tabelą \ref{table:results}, przeprowadzono testy, aby sprawdzić dla różnych modularności  i agregacji lub rozproszenia, jak zależą wartości parametrów algorytmu od prezentowanych wyników. 
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{||c c c c||} 
+     \hline
+     Mi,Lambda,Mut,Cross,Stale & Rozproszony & Modularność & Wynik \\ [0.5ex] 
+     \hline\hline
+     1000;1000;0,7;0,9;500 & Agregacja & 1 & 34624.0 \\
+     1000;1000;0,7;0,9;500 & Agregacja & 1 & 22444,00 \\
+     1000;1000;0,5;0,9;500 & Agregacja & 1 & 22444,00 \\
+     1000;1000;0,95;0,95;500 & Agregacja & 1 & 22444,00 \\
+     2000;2000;0,95;0,95;400 & Agregacja & 1 & 22444,00 \\
+     20000;1500;0,95;0,95;300 & Agregacja & 1 & 22444,00 \\
+     600;300;0,95;0,5;300 & Agregacja & 1 & 23438,00 \\
+     600;300;0,95;0,95;600 & Agregacja & 1 & 22444,00 \\
+     \hline
+     600;300;0,95;0,95;600 & Agregacja & 5 & 4494,00 \\
+     600;300;0,95;0,95;600 & Agregacja & 5 & 4494,00 \\
+     700;500;1;1;600 & Agregacja & 5 & 4493,00 \\
+     \hline
+     700;500;1;1;600 & Agregacja & 100 & 231,00 \\
+     700;500;1;0,8;600 & Agregacja & 100 & 231,00 \\
+     200;500;1;1;600;frq=0.2 & Agregacja & 100 & 230,00 \\
+     500;100;1;1;600;frq=0.2 & Agregacja & 100 & 230,00 \\
+     50;300;1;1;600;frq=0.2 & Agregacja & 100 & 230,00 \\
+     50;100;1;1;600 & Agregacja & 100 & 230,00 \\
+     50;100;1;0,5;600 & Agregacja & 100 & 245,00 \\
+     50;100;0,5;1;600 & Agregacja & 100 & 230,00 \\
+     50;100;0,5;0,8;600 & Agregacja & 100 & 230,00 \\
+     \hline
+     50;100;0,5;0,8;600 & Rozproszony & 1 & 24012,00 \\
+     1000;100;0,5;0,8;30 & Rozproszony & 1 & 25934,00 \\
+     
+
+
+
+
+
+
+
+
+     
+     
+     
+     \hline
+    \end{tabular}
+    \caption{Wyniki testów.}
+    \label{table:results}
+\end{table}

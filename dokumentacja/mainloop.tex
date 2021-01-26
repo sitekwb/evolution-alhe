@@ -1,0 +1,17 @@
+\lstset{language=Python}
+\begin{lstlisting}
+createInitPopulation(MI)
+t = 0
+while not stop_condition(t, stale_generations_count, lowest_fitness):
+    pop = []
+    for i in range(settings["LAMBDA"]):
+        a = random.uniform(0, 1)
+        if a < settings["CROSSOVER_PROB"]:
+            chromosome = mutation(crossover(select(populations[t], k=2)))
+            pop += chromosome
+        else:
+            chromosome = mutation(select(populations[t], k=1))
+            pop += chromosome
+    populations += pop
+    t += 1
+\end{lstlisting}
