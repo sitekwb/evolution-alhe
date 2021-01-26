@@ -7,8 +7,28 @@ from init import createInitPopulation
 from fitness import *
 from tqdm import tqdm
 
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
 import sys
 import random
+
+
+def plot(populations):
+    fig, ax = plt.subplots()
+
+    # Data for plotting
+    for index in range(len(populations)):
+        population = populations[index]
+        x = [index] * len(population)
+        _, y = zip(*population)
+        plt.scatter(x, y, c = 'blue', s = 1)
+
+    ax.set(xlabel='Generation', ylabel='Fitness',
+           title='')
+    ax.grid()
+
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -66,7 +86,8 @@ if __name__ == '__main__':
             progress_bar.set_description(f"{lowest_fitness:9.2f}")
     except Exception as e:
         print(e)
-    finally:    
+    finally:
+        plot(populations)
         # SAVE
         # save(populations, 'populations')
         save(winner_chromosome, 'winner_chromosome')
