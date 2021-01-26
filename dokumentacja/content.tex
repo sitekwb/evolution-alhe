@@ -113,6 +113,16 @@ Jest obliczana zgodnie z zasadami, opisanymi w zadaniu. Chromosom zagregowany sk
 
 Zgodnie z tabelą \ref{table:results}, przeprowadzono testy, aby sprawdzić dla różnych modularności  i agregacji lub rozproszenia, jak zależą wartości parametrów algorytmu od prezentowanych wyników. 
 
+Przy agregacji dla modularności = 1 znaczenie ma tylko długość ścieżek, z uwagi na fakt, że zapotrzebowania są zawsze liczbami całkowitymi, dla zapotrzebowania D potrzebne jest D * długość ścieżki modułów. Przyglądając się wynikom można podejrzewać, że 22444 to minimum globalne danego problemu. Dwóm przejściom algorytmu nie udało się osiągnąć tego wyniku, najprawdopodobniej w wyniku niesprzyjających mutacji lub zbyt małej ilości generacji.
+
+Modularność 5 pozwala już na delikatne optymalizacje/straty w wyniku w zależności od wykorzystania ostatniego z modułów na każdej krawędzi. Osiągany wynik 4494 różni się o raptem 5, jeśli porównać go z wynikiem modularności = 1 (22444 / 5 = 4488,8), więc zakładając, że algorytm dla modularności = 1 osiągnął minimum globalne, to wynik ten można by poprawić jedynie o 5, czyli 0,1\%.
+
+Dla modularności = 100 przewidywany najlepszy wynik to 225 (zgodnie z logiką z poprzednich rozważań). Algorytm osiągnął zbliżony wynik w prawie każdym przypadku. 
+
+Analiza wyników algorytmu w wersji zagregowanej pozwala stwierdzić, że wybrane parametry pozwalają osiągnąć zadowalające wyniki. Prawdopodobnie algorytmy osiągają swoje docelowe wartości dość szybko, a następnie pracują do momentu osiągnięcia założonej ilości generacji. W takiej sytuacji dalszych optymalizacji można by poszukiwać w skróceniu ilości generacji, a zaoszczędzony czas przeznaczyć na wielokrotne uruchomienia lub na zwiększenie populacji, lub też poprzez zwiększenie ilości mutujących genów w osobniku, by osiągnąć większą eksplorację.
+
+Algorytm w wersji rozproszonej wykonuje się znacznie dłużej z uwagi na znacznie zwiększoną ilość operacji. Pomimo tego, dla modularności = 1 osiąga on gorsze wyniki od wersji zagregowanej. Wynika to z faktu, iż teraz na ścieżce umieszczana jest tylko część zapotrzebowania, która najprawdopodobniej posiada część ułamkową. Takie pozostałości wymagają wykorzystania większej ilości modułów, jednocześnie nie oferując żadnego zysku. Algorytm rozproszony ma szansę stać się skuteczniejszy od zagregowanego w sytuacji, kiedy modularność osiągnie na tyle duże wartości, że będzie się opłacało przepuścić część zapotrzebowania dłuższą ścieżką, aby dopełnić niewykorzystane w pełni moduły.
+
 \begin{table}[h!]
     \centering
     \begin{tabular}{||c c c c||} 
