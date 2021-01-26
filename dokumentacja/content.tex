@@ -10,7 +10,10 @@ optymalne prawdopodobieństwo operatorów genetycznych oraz liczność populacji
 \label{section:explanation}
 
 \subsection{Modularność}
-Modularność jest to ... 
+
+Modularność określa maksymalną ilość zapotrzebowania, jaką można przepuścić przez krawędź, by zużyć jeden moduł (zwiększyć koszt o 1). Moduł zwiększa koszt niezależnie od stopnia wykorzystania, dlatego celem optymalizacji jest zminimalizowanie ich ilości poprzez odpowiedni dobór ścieżek dla zapotrzebowań.
+
+Przykład: dla modularności = 30, jeśli dana krawędź ma obciążenie = 31, kosztuje ona 2 moduły. Jeśli dzięki optymalizacji obciążenie tej krawędzi zmalałoby do 30, kosztowałaby ona tylko 1 moduł.
 
 \subsection{Algorytm Ewolucyjny}
 
@@ -69,7 +72,7 @@ W języku Python zapisane są ustawienia domyślne, które są nadpisywane przez
     \item TOURNAMENT\_COMPETITION\_COUNT - wielkość szranek selekcji turniejowej,
     \item SEED - wartość ziarna generacji liczb pseudolosowych (podczas testowania ustawiona na 74),
     \item SHOW\_LOG\_ON\_CONSOLE - czy propagować logi programu na konsolę użytkownika,
-    \item MUTATION\_FREQUENCY - jaka część populacji (od 0 do 1) ma zostać poddana mutacji. Wartość -1 powoduje wyłączenie tej funkcji i wtedy tylko 1 gen populacji zostaje zmutowany.
+    \item MUTATION\_FREQUENCY - określa ilość genów zmutowanych w pojedynczym osobniku. Pojedynczy gen może zmutować wielokrotnie w trakcie jednej mutacji. Żaden gen nie zmutuje, jeśli nie powiedzie się test na prawdopodobieństwo mutacji.
 \end{itemize}
 
 \section{Charakterystyka implementacji algorytmu}
@@ -110,6 +113,22 @@ Algorytm zatrzymuje się, jeżeli wydarzy się co najmniej jedno z trzech zdarze
 Jest obliczana zgodnie z zasadami, opisanymi w zadaniu. Chromosom zagregowany składa się z liczb od 0 do 5, oznaczających indeksy dozwolonych ścieżek dla kolejnych zapotrzebowań. Chromosom rozproszony zaś, składa się z liczb od 0 do 1 dla każdej dozwolonej ścieżki dla kolejnych zapotrzebowań. Później finalna wartość procentowa przepływu daną dozwoloną ścieżką jest wartością znormalizowaną w ramach każdego zapotrzebowania.
 
 \section{Analiza wyników}
+
+Przykłady wartości funkcji celu w zależności od pokolenia są ukazane na rysunkach \ref{fig:a} oraz \ref{fig:b}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{img/wykres.png}
+    \caption{Wartość funkcji celu w zależności od populacji. Wykres 1}
+    \label{fig:a}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{img/wykres2.png}
+    \caption{Wartość funkcji celu w zależności od populacji. Wykres 2}
+    \label{fig:b}
+\end{figure}
 
 Zgodnie z tabelą \ref{table:results}, przeprowadzono testy, aby sprawdzić dla różnych modularności  i agregacji lub rozproszenia, jak zależą wartości parametrów algorytmu od prezentowanych wyników. 
 
